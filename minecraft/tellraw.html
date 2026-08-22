@@ -3,13 +3,13 @@
 <head>
   <meta charset="UTF-8">
   <title>Tellraw Generator</title>
-  <link rel="stylesheet" href="../styles/tellraw.css">
-  <script src="../script/tellraw.js"></script>
+  <link rel="stylesheet" href="./styles/tellraw.css">
+  <script src="./script/tellraw.js"></script>
 </head>
 <body>
   <div id="navbar-container"></div>
 <script>
-  fetch('/navbar.html')
+  fetch('./navbar.html')
     .then(response => response.text())
     .then(data => {
       document.getElementById('navbar-container').innerHTML = data;

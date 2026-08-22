@@ -284,7 +284,8 @@ const sampleAdvancements = [
 // ==========================================
 async function loadItemsDatabase() {
   try {
-    const res = await fetch('../items.json');
+    let res = await fetch('./items.json');
+    if (!res.ok) res = await fetch('items.json');
     if (res.ok) {
       const data = await res.json();
       state.itemsList = data.values || [];

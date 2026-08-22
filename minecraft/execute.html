@@ -4,14 +4,14 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Execute Command Builder - Minecraft Java Edition</title>
-  <link rel="stylesheet" href="../styles/home.css">
-  <link rel="stylesheet" href="../styles/execute.css">
+  <link rel="stylesheet" href="./styles/home.css">
+  <link rel="stylesheet" href="./styles/execute.css">
 </head>
 <body>
   <!-- Global Navbar -->
   <div id="navbar-container"></div>
   <script>
-    fetch('../navbar.html')
+    fetch('./navbar.html')
       .then(response => response.text())
       .then(data => {
         document.getElementById('navbar-container').innerHTML = data;
@@ -245,6 +245,6 @@
   <div class="toast-container" id="toastContainer"></div>
 
   <!-- Scripts -->
-  <script src="../script/execute.js"></script>
+  <script src="./script/execute.js"></script>
 </body>
 </html>
