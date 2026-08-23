@@ -5,17 +5,10 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Portfolio Minecraft - IlTuoNome</title>
   <link rel="stylesheet" href="styles/portfolio.css">
+  <link rel="stylesheet" href="styles/home.css">
 </head>
 <body>
-    <div id="navbar-container"></div>
-<script>
-  fetch('./navbar.html')
-    .then(response => response.text())
-    .then(data => {
-      document.getElementById('navbar-container').innerHTML = data;
-    })
-    .catch(error => console.error('Errore:', error));
-</script>
+  <div id="navbar-container"></div>
 
   <h1 class="portfolio-title">🎮 Portfolio</h1>
   <div class="intro">
@@ -42,8 +35,8 @@
       <p>Aggiunge effetti di velocità e leggerezza ai giocatori nel mondo del cielo. Compatibile con 1.20+.</p>
       <a href="https://drive.google.com/uc?export=download&id=ID_DEL_FILE_3" target="_blank">Scarica</a>
     </div>
-    <!-- Puoi aggiungere altri progetti qui -->
   </div>
 
+  <script src="script/navbar.js"></script>
 </body>
 </html>

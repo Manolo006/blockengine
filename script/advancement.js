@@ -1,73 +1,89 @@
 /**
- * ADVANCEMENT TREE GENERATOR - MINECRAFT JAVA EDITION
- * 100% Vanilla-compliant JSON Generator, Drag & Drop Canvas, 57 Triggers, ZIP Exporter
+ * ADVANCEMENT GENERATOR - MISODE & VANILLA JAVA EDITION THEME
+ * Full 57 Triggers, Dynamic Customizable Background, Orthogonal Canvas, Data Pack ZIP Export
  */
 
 // ==========================================
 // 1. OFFICIAL 57 MINECRAFT JAVA TRIGGERS
 // ==========================================
 const MINECRAFT_TRIGGERS = [
-  { id: "minecraft:inventory_changed", name: "Inventory Changed", desc: "Triggered when player inventory items change", type: "items" },
-  { id: "minecraft:recipe_unlocked", name: "Recipe Unlocked", desc: "Triggered when a recipe is unlocked in the recipe book", type: "recipe" },
-  { id: "minecraft:recipe_crafted", name: "Recipe Crafted", desc: "Triggered when a recipe is crafted by the player", type: "recipe" },
-  { id: "minecraft:crafter_recipe_crafted", name: "Crafter Recipe Crafted", desc: "Triggered when an automated crafter block crafts an item", type: "recipe" },
-  { id: "minecraft:player_killed_entity", name: "Player Killed Entity", desc: "Triggered when the player kills any entity/mob", type: "entity" },
-  { id: "minecraft:entity_killed_player", name: "Entity Killed Player", desc: "Triggered when a mob kills the player", type: "entity" },
-  { id: "minecraft:player_hurt_entity", name: "Player Hurt Entity", desc: "Triggered when the player hurts an entity", type: "entity" },
-  { id: "minecraft:entity_hurt_player", name: "Entity Hurt Player", desc: "Triggered when an entity hurts the player", type: "damage" },
-  { id: "minecraft:location", name: "Location", desc: "Triggered periodically based on player location/biome/dimension", type: "location" },
-  { id: "minecraft:tick", name: "Tick", desc: "Triggered on every single tick (useful for root advancements)", type: "tick" },
-  { id: "minecraft:consume_item", name: "Consume Item", desc: "Triggered when player eats or drinks an item", type: "item" },
-  { id: "minecraft:placed_block", name: "Placed Block", desc: "Triggered when player places a block", type: "block" },
-  { id: "minecraft:bred_animals", name: "Bred Animals", desc: "Triggered when player breeds two animals", type: "breed" },
-  { id: "minecraft:brewed_potion", name: "Brewed Potion", desc: "Triggered when a brewing stand finishes brewing a potion", type: "potion" },
-  { id: "minecraft:cured_zombie_villager", name: "Cured Zombie Villager", desc: "Triggered when player cures a zombie villager", type: "entity" },
-  { id: "minecraft:enchanted_item", name: "Enchanted Item", desc: "Triggered when player enchants an item at an enchanting table", type: "enchant" },
-  { id: "minecraft:enter_block", name: "Enter Block", desc: "Triggered when player enters a block (e.g. portal, water, honey)", type: "block" },
-  { id: "minecraft:fall_from_height", name: "Fall From Height", desc: "Triggered when player lands after falling from a height", type: "distance" },
-  { id: "minecraft:fishing_rod_hooked", name: "Fishing Rod Hooked", desc: "Triggered when player reels in an item or entity with fishing rod", type: "item" },
-  { id: "minecraft:hero_of_the_village", name: "Hero of the Village", desc: "Triggered when a raid is defeated and player gets Hero of the Village", type: "location" },
-  { id: "minecraft:impossible", name: "Impossible", desc: "Cannot be unlocked naturally; unlocked only via /advancement command", type: "none" },
-  { id: "minecraft:item_durability_changed", name: "Item Durability Changed", desc: "Triggered when an item durability decreases or increases", type: "item" },
-  { id: "minecraft:item_used_on_block", name: "Item Used On Block", desc: "Triggered when player uses an item on a block (e.g. hoe on dirt)", type: "item_block" },
-  { id: "minecraft:kill_mob_near_sculk_catalyst", name: "Kill Mob Near Sculk Catalyst", desc: "Triggered when mob killed in sculk catalyst range", type: "entity" },
-  { id: "minecraft:levitation", name: "Levitation", desc: "Triggered when player receives levitation effect (e.g. Shulker)", type: "distance" },
-  { id: "minecraft:lightning_strike", name: "Lightning Strike", desc: "Triggered when lightning strikes near player or summoned by trident", type: "entity" },
-  { id: "minecraft:nether_travel", name: "Nether Travel", desc: "Triggered when player travels through a Nether portal across distance", type: "distance" },
-  { id: "minecraft:player_generates_container_loot", name: "Container Loot Generated", desc: "Triggered when a naturally generated chest loot table is opened", type: "loot" },
-  { id: "minecraft:player_interacted_with_entity", name: "Player Interacted With Entity", desc: "Triggered when right-clicking on an entity with an item", type: "entity_item" },
-  { id: "minecraft:shot_crosshairs", name: "Shot Crosshairs", desc: "Triggered when projectile hits an entity in player crosshair", type: "entity" },
-  { id: "minecraft:slept_in_bed", name: "Slept in Bed", desc: "Triggered when player successfully sleeps in a bed", type: "location" },
-  { id: "minecraft:slide_down_block", name: "Slide Down Block", desc: "Triggered when sliding down a honey block", type: "block" },
-  { id: "minecraft:summoned_entity", name: "Summoned Entity", desc: "Triggered when spawning Iron Golem, Snow Golem, or Wither", type: "entity" },
-  { id: "minecraft:tame_animal", name: "Tame Animal", desc: "Triggered when taming a horse, wolf, cat, parrot, llama", type: "entity" },
-  { id: "minecraft:target_hit", name: "Target Block Hit", desc: "Triggered when a projectile hits a target block", type: "block" },
-  { id: "minecraft:throw_item", name: "Throw Item", desc: "Triggered when throwing an item", type: "item" },
-  { id: "minecraft:thrown_item_picked_up_by_entity", name: "Thrown Item Picked Up", desc: "Triggered when an entity picks up a thrown item (e.g. Piglin bartering)", type: "entity_item" },
-  { id: "minecraft:used_ender_eye", name: "Used Ender Eye", desc: "Triggered when throwing an Eye of Ender", type: "distance" },
-  { id: "minecraft:used_totem", name: "Used Totem of Undying", desc: "Triggered when player avoids death using a Totem of Undying", type: "item" },
-  { id: "minecraft:using_item", name: "Using Item", desc: "Triggered continuously while holding right-click on an item (bow, shield, spyglass)", type: "item" },
-  { id: "minecraft:villager_trade", name: "Villager Trade", desc: "Triggered when completing a trade with a villager or wandering trader", type: "trade" },
-  { id: "minecraft:voluntary_exile", name: "Voluntary Exile", desc: "Triggered when killing a Raid Captain (Bad Omen effect)", type: "location" },
-  { id: "minecraft:allay_drop_item_on_block", name: "Allay Drop Item On Block", desc: "Triggered when an Allay drops an item on a block", type: "item_block" },
-  { id: "minecraft:avoid_vibration", name: "Avoid Vibration", desc: "Triggered when sneaking to avoid triggering a Sculk Sensor", type: "location" },
-  { id: "minecraft:chiseled_bookshelf_interaction", name: "Chiseled Bookshelf Interaction", desc: "Triggered when inserting or removing a book from chiseled bookshelf", type: "block" },
-  { id: "minecraft:construct_beacon", name: "Construct Beacon", desc: "Triggered when activating a beacon pyramid", type: "beacon" },
-  { id: "minecraft:effects_changed", name: "Effects Changed", desc: "Triggered when active status effects on player change", type: "effects" },
-  { id: "minecraft:fall_after_explosion", name: "Fall After Explosion", desc: "Triggered when falling safely using a Wind Charge explosion", type: "distance" },
-  { id: "minecraft:default_block_use", name: "Default Block Use", desc: "Triggered when interacting with interactable blocks (e.g. crafter, bell)", type: "block" }
+  { id: "minecraft:impossible", name: "impossible", desc: "Cannot be unlocked naturally; only via commands" },
+  { id: "minecraft:inventory_changed", name: "inventory_changed", desc: "Player inventory items changed" },
+  { id: "minecraft:recipe_unlocked", name: "recipe_unlocked", desc: "Recipe unlocked in recipe book" },
+  { id: "minecraft:recipe_crafted", name: "recipe_crafted", desc: "Recipe crafted by player" },
+  { id: "minecraft:crafter_recipe_crafted", name: "crafter_recipe_crafted", desc: "Crafter block crafted recipe" },
+  { id: "minecraft:player_killed_entity", name: "player_killed_entity", desc: "Player killed a mob/entity" },
+  { id: "minecraft:entity_killed_player", name: "entity_killed_player", desc: "Mob/entity killed the player" },
+  { id: "minecraft:player_hurt_entity", name: "player_hurt_entity", desc: "Player damaged an entity" },
+  { id: "minecraft:entity_hurt_player", name: "entity_hurt_player", desc: "Entity damaged the player" },
+  { id: "minecraft:location", name: "location", desc: "Player location/biome/dimension" },
+  { id: "minecraft:tick", name: "tick", desc: "Runs every single game tick" },
+  { id: "minecraft:consume_item", name: "consume_item", desc: "Player ate or drank an item" },
+  { id: "minecraft:placed_block", name: "placed_block", desc: "Player placed a block" },
+  { id: "minecraft:bred_animals", name: "bred_animals", desc: "Player bred two animals" },
+  { id: "minecraft:brewed_potion", name: "brewed_potion", desc: "Brewing stand brewed a potion" },
+  { id: "minecraft:cured_zombie_villager", name: "cured_zombie_villager", desc: "Player cured a zombie villager" },
+  { id: "minecraft:enchanted_item", name: "enchanted_item", desc: "Player enchanted an item" },
+  { id: "minecraft:enter_block", name: "enter_block", desc: "Player walked into a block" },
+  { id: "minecraft:fall_from_height", name: "fall_from_height", desc: "Player landed after falling" },
+  { id: "minecraft:fishing_rod_hooked", name: "fishing_rod_hooked", desc: "Fishing rod caught an item or entity" },
+  { id: "minecraft:hero_of_the_village", name: "hero_of_the_village", desc: "Player defeated a raid" },
+  { id: "minecraft:item_durability_changed", name: "item_durability_changed", desc: "Item durability decreased/increased" },
+  { id: "minecraft:item_used_on_block", name: "item_used_on_block", desc: "Player right clicked a block with item" },
+  { id: "minecraft:kill_mob_near_sculk_catalyst", name: "kill_mob_near_sculk_catalyst", desc: "Mob killed near sculk catalyst" },
+  { id: "minecraft:levitation", name: "levitation", desc: "Player received levitation effect" },
+  { id: "minecraft:lightning_strike", name: "lightning_strike", desc: "Lightning struck near player" },
+  { id: "minecraft:nether_travel", name: "nether_travel", desc: "Player traveled through Nether portal" },
+  { id: "minecraft:player_generates_container_loot", name: "player_generates_container_loot", desc: "Naturally generated chest opened" },
+  { id: "minecraft:player_interacted_with_entity", name: "player_interacted_with_entity", desc: "Player right-clicked an entity" },
+  { id: "minecraft:shot_crosshairs", name: "shot_crosshairs", desc: "Projectile hit entity in crosshairs" },
+  { id: "minecraft:slept_in_bed", name: "slept_in_bed", desc: "Player slept in a bed" },
+  { id: "minecraft:slide_down_block", name: "slide_down_block", desc: "Player slid down a honey block" },
+  { id: "minecraft:summoned_entity", name: "summoned_entity", desc: "Spawned Golem or Wither" },
+  { id: "minecraft:tame_animal", name: "tame_animal", desc: "Tamed horse, wolf, cat, etc." },
+  { id: "minecraft:target_hit", name: "target_hit", desc: "Target block hit with projectile" },
+  { id: "minecraft:throw_item", name: "throw_item", desc: "Player threw an item" },
+  { id: "minecraft:thrown_item_picked_up_by_entity", name: "thrown_item_picked_up_by_entity", desc: "Entity picked up thrown item" },
+  { id: "minecraft:used_ender_eye", name: "used_ender_eye", desc: "Threw an eye of ender" },
+  { id: "minecraft:used_totem", name: "used_totem", desc: "Used a Totem of Undying" },
+  { id: "minecraft:using_item", name: "using_item", desc: "Continuously using an item" },
+  { id: "minecraft:villager_trade", name: "villager_trade", desc: "Traded with a villager" },
+  { id: "minecraft:voluntary_exile", name: "voluntary_exile", desc: "Killed a raid captain" },
+  { id: "minecraft:allay_drop_item_on_block", name: "allay_drop_item_on_block", desc: "Allay dropped item on block" },
+  { id: "minecraft:avoid_vibration", name: "avoid_vibration", desc: "Sneaked to avoid sculk sensor" },
+  { id: "minecraft:chiseled_bookshelf_interaction", name: "chiseled_bookshelf_interaction", desc: "Used chiseled bookshelf" },
+  { id: "minecraft:construct_beacon", name: "construct_beacon", desc: "Activated a beacon pyramid" },
+  { id: "minecraft:effects_changed", name: "effects_changed", desc: "Player status effects changed" },
+  { id: "minecraft:fall_after_explosion", name: "fall_after_explosion", desc: "Fell safely after wind burst" },
+  { id: "minecraft:default_block_use", name: "default_block_use", desc: "Used block interaction" }
 ];
 
 // ==========================================
-// 2. STATE & CONFIGURATION
+// 2. BACKGROUND PRESETS
+// ==========================================
+const BACKGROUND_PRESETS = {
+  adventure: "https://raw.githubusercontent.com/InventivetalentDev/minecraft-assets/26.2/assets/minecraft/textures/gui/advancements/backgrounds/adventure.png",
+  stone: "https://raw.githubusercontent.com/InventivetalentDev/minecraft-assets/26.2/assets/minecraft/textures/block/stone.png",
+  dirt: "https://raw.githubusercontent.com/InventivetalentDev/minecraft-assets/26.2/assets/minecraft/textures/block/dirt.png",
+  bedrock: "https://raw.githubusercontent.com/InventivetalentDev/minecraft-assets/26.2/assets/minecraft/textures/block/bedrock.png",
+  netherrack: "https://raw.githubusercontent.com/InventivetalentDev/minecraft-assets/26.2/assets/minecraft/textures/block/netherrack.png",
+  end_stone: "https://raw.githubusercontent.com/InventivetalentDev/minecraft-assets/26.2/assets/minecraft/textures/block/end_stone.png",
+  deepslate: "https://raw.githubusercontent.com/InventivetalentDev/minecraft-assets/26.2/assets/minecraft/textures/block/deepslate.png",
+  oak_planks: "https://raw.githubusercontent.com/InventivetalentDev/minecraft-assets/26.2/assets/minecraft/textures/block/oak_planks.png",
+  dark_prismarine: "https://raw.githubusercontent.com/InventivetalentDev/minecraft-assets/26.2/assets/minecraft/textures/block/dark_prismarine.png",
+  crying_obsidian: "https://raw.githubusercontent.com/InventivetalentDev/minecraft-assets/26.2/assets/minecraft/textures/block/crying_obsidian.png"
+};
+
+// ==========================================
+// 3. STATE
 // ==========================================
 const state = {
   namespace: "custom",
   advancements: [],
   selectedId: null,
   scale: 1,
-  panX: 400,
-  panY: 250,
+  panX: 280,
+  panY: 220,
   isPanning: false,
   startPanX: 0,
   startPanY: 0,
@@ -76,23 +92,27 @@ const state = {
   dragStartY: 0,
   dragNodeInitialX: 0,
   dragNodeInitialY: 0,
+  currentBackground: BACKGROUND_PRESETS.adventure,
+  bgTileSize: 64,
+  bgOpacity: 0.9,
   itemsList: [],
   assetsBaseUrl: "https://raw.githubusercontent.com/InventivetalentDev/minecraft-assets/26.2/assets/minecraft/textures/"
 };
 
 // ==========================================
-// 3. INITIAL SAMPLE DATA
+// 4. SAMPLE TREE (EXACTLY MATCHING USER UI)
 // ==========================================
 const sampleAdvancements = [
   {
     id: "root",
     parent: null,
-    x: 100,
-    y: 200,
+    x: 80,
+    y: 260,
+    sends_telemetry_event: false,
     display: {
-      title: "Minecraft Adventure",
-      description: "The journey begins! Welcome to the custom questline.",
-      icon: "minecraft:grass_block",
+      title: "Minecraft Questline",
+      description: "Begin your adventure",
+      icon: "minecraft:nether_star",
       frame: "task",
       show_toast: true,
       announce_to_chat: true,
@@ -100,299 +120,470 @@ const sampleAdvancements = [
       background: "minecraft:textures/gui/advancements/backgrounds/adventure.png"
     },
     criteria: [
-      {
-        id: "crafting_table",
-        trigger: "minecraft:inventory_changed",
-        conditions: {
-          items: [{ items: "minecraft:crafting_table" }]
-        }
-      }
+      { id: "requirement", trigger: "minecraft:tick", conditions: {} }
     ],
-    requirementsMode: "AND", // "AND", "OR", "CUSTOM"
+    requirementsMode: "AND",
     customRequirements: [],
-    rewards: {
-      experience: 10,
-      recipes: ["minecraft:wooden_pickaxe", "minecraft:wooden_sword"],
-      function: "",
-      loot: []
-    }
+    rewards: { experience: 0, recipes: [], function: "", loot: [] }
   },
   {
-    id: "mine_stone",
+    id: "branch_top",
     parent: "root",
-    x: 340,
-    y: 120,
+    x: 180,
+    y: 70,
+    sends_telemetry_event: false,
     display: {
-      title: "Stone Age",
-      description: "Mine stone with your new wooden pickaxe.",
-      icon: "minecraft:cobblestone",
+      title: "Cauldron Crafts",
+      description: "Use a cauldron",
+      icon: "minecraft:cauldron",
       frame: "task",
       show_toast: true,
       announce_to_chat: true,
       hidden: false
     },
-    criteria: [
-      {
-        id: "cobblestone",
-        trigger: "minecraft:inventory_changed",
-        conditions: {
-          items: [{ items: "minecraft:cobblestone" }]
-        }
-      }
-    ],
+    criteria: [{ id: "requirement", trigger: "minecraft:impossible", conditions: {} }],
     requirementsMode: "AND",
-    customRequirements: [],
-    rewards: {
-      experience: 20,
-      recipes: ["minecraft:stone_pickaxe"],
-      function: "",
-      loot: []
-    }
+    rewards: { experience: 10, recipes: [], function: "", loot: [] }
   },
   {
-    id: "acquire_iron",
-    parent: "mine_stone",
-    x: 580,
-    y: 120,
+    id: "sub_top_1",
+    parent: "branch_top",
+    x: 280,
+    y: 40,
+    sends_telemetry_event: false,
     display: {
-      title: "Acquire Hardware",
-      description: "Smelt an iron ingot in a furnace.",
-      icon: "minecraft:iron_ingot",
+      title: "Rare Brew",
+      description: "Collect brewing items",
+      icon: "minecraft:potion",
       frame: "task",
       show_toast: true,
       announce_to_chat: true,
       hidden: false
     },
-    criteria: [
-      {
-        id: "iron",
-        trigger: "minecraft:inventory_changed",
-        conditions: {
-          items: [{ items: "minecraft:iron_ingot" }]
-        }
-      }
-    ],
+    criteria: [{ id: "requirement", trigger: "minecraft:impossible", conditions: {} }],
     requirementsMode: "AND",
-    customRequirements: [],
-    rewards: {
-      experience: 50,
-      recipes: ["minecraft:iron_sword", "minecraft:shield"],
-      function: "",
-      loot: []
-    }
+    rewards: { experience: 20, recipes: [], function: "", loot: [] }
   },
   {
-    id: "suit_up",
-    parent: "acquire_iron",
-    x: 820,
-    y: 60,
+    id: "sub_top_2",
+    parent: "branch_top",
+    x: 280,
+    y: 100,
+    sends_telemetry_event: false,
     display: {
-      title: "Suit Up!",
-      description: "Protect yourself with a piece of iron armor.",
-      icon: "minecraft:iron_chestplate",
+      title: "Soul Light",
+      description: "Obtain soul fire",
+      icon: "minecraft:soul_lantern",
+      frame: "task",
+      show_toast: true,
+      announce_to_chat: true,
+      hidden: false
+    },
+    criteria: [{ id: "requirement", trigger: "minecraft:impossible", conditions: {} }],
+    requirementsMode: "AND",
+    rewards: { experience: 20, recipes: [], function: "", loot: [] }
+  },
+  {
+    id: "branch_mid",
+    parent: "root",
+    x: 180,
+    y: 200,
+    sends_telemetry_event: false,
+    display: {
+      title: "Totem Master",
+      description: "Find an ancient totem",
+      icon: "minecraft:totem_of_undying",
+      frame: "task",
+      show_toast: true,
+      announce_to_chat: true,
+      hidden: false
+    },
+    criteria: [{ id: "requirement", trigger: "minecraft:impossible", conditions: {} }],
+    requirementsMode: "AND",
+    rewards: { experience: 50, recipes: [], function: "", loot: [] }
+  },
+  {
+    id: "cauldron_node",
+    parent: "branch_mid",
+    x: 280,
+    y: 170,
+    sends_telemetry_event: false,
+    display: {
+      title: "Witch Cauldron",
+      description: "Fill the cauldron",
+      icon: "minecraft:brewing_stand",
+      frame: "task",
+      show_toast: true,
+      announce_to_chat: true,
+      hidden: false
+    },
+    criteria: [{ id: "requirement", trigger: "minecraft:impossible", conditions: {} }],
+    requirementsMode: "AND",
+    rewards: { experience: 30, recipes: [], function: "", loot: [] }
+  },
+  {
+    id: "apple_food",
+    parent: "cauldron_node",
+    x: 370,
+    y: 130,
+    sends_telemetry_event: false,
+    display: {
+      title: "Golden Snack",
+      description: "Eat golden apple",
+      icon: "minecraft:golden_apple",
+      frame: "task",
+      show_toast: true,
+      announce_to_chat: true,
+      hidden: false
+    },
+    criteria: [{ id: "requirement", trigger: "minecraft:impossible", conditions: {} }],
+    requirementsMode: "AND",
+    rewards: { experience: 30, recipes: [], function: "", loot: [] }
+  },
+  {
+    id: "stew_dish",
+    parent: "cauldron_node",
+    x: 370,
+    y: 180,
+    sends_telemetry_event: false,
+    display: {
+      title: "Suspicious Stew",
+      description: "Cook delicious soup",
+      icon: "minecraft:suspicious_stew",
+      frame: "task",
+      show_toast: true,
+      announce_to_chat: true,
+      hidden: false
+    },
+    criteria: [{ id: "requirement", trigger: "minecraft:impossible", conditions: {} }],
+    requirementsMode: "AND",
+    rewards: { experience: 40, recipes: [], function: "", loot: [] }
+  },
+  {
+    id: "beetroot_soup",
+    parent: "cauldron_node",
+    x: 370,
+    y: 230,
+    sends_telemetry_event: false,
+    display: {
+      title: "Beetroot Feast",
+      description: "Harvest beetroots",
+      icon: "minecraft:beetroot_soup",
+      frame: "task",
+      show_toast: true,
+      announce_to_chat: true,
+      hidden: false
+    },
+    criteria: [{ id: "requirement", trigger: "minecraft:impossible", conditions: {} }],
+    requirementsMode: "AND",
+    rewards: { experience: 25, recipes: [], function: "", loot: [] }
+  },
+  {
+    id: "soup_bowl",
+    parent: "beetroot_soup",
+    x: 460,
+    y: 230,
+    sends_telemetry_event: false,
+    display: {
+      title: "Master Chef",
+      description: "Taste all soups in the game",
+      icon: "minecraft:mushroom_stew",
       frame: "goal",
       show_toast: true,
       announce_to_chat: true,
       hidden: false
     },
-    criteria: [
-      {
-        id: "iron_chestplate",
-        trigger: "minecraft:inventory_changed",
-        conditions: {
-          items: [{ items: "minecraft:iron_chestplate" }]
-        }
-      }
-    ],
+    criteria: [{ id: "requirement", trigger: "minecraft:impossible", conditions: {} }],
     requirementsMode: "AND",
-    customRequirements: [],
-    rewards: {
-      experience: 100,
-      recipes: [],
-      function: "",
-      loot: []
-    }
+    rewards: { experience: 100, recipes: [], function: "", loot: [] }
   },
   {
-    id: "diamonds",
-    parent: "acquire_iron",
-    x: 820,
-    y: 180,
+    id: "leather_helm",
+    parent: "branch_mid",
+    x: 280,
+    y: 240,
+    sends_telemetry_event: false,
     display: {
-      title: "DIAMONDS!",
-      description: "Acquire rare diamonds from the depths.",
-      icon: "minecraft:diamond",
-      frame: "challenge",
-      show_toast: true,
-      announce_to_chat: true,
-      hidden: false
-    },
-    criteria: [
-      {
-        id: "diamond",
-        trigger: "minecraft:inventory_changed",
-        conditions: {
-          items: [{ items: "minecraft:diamond" }]
-        }
-      }
-    ],
-    requirementsMode: "AND",
-    customRequirements: [],
-    rewards: {
-      experience: 500,
-      recipes: ["minecraft:diamond_sword", "minecraft:diamond_pickaxe"],
-      function: "",
-      loot: []
-    }
-  },
-  {
-    id: "bake_bread",
-    parent: "root",
-    x: 340,
-    y: 300,
-    display: {
-      title: "Bake Bread",
-      description: "Turn wheat into a delicious loaf of bread.",
-      icon: "minecraft:bread",
+      title: "Leather Cap",
+      description: "Wear armor",
+      icon: "minecraft:leather_helmet",
       frame: "task",
       show_toast: true,
       announce_to_chat: true,
       hidden: false
     },
-    criteria: [
-      {
-        id: "bread",
-        trigger: "minecraft:inventory_changed",
-        conditions: {
-          items: [{ items: "minecraft:bread" }]
-        }
-      }
-    ],
+    criteria: [{ id: "requirement", trigger: "minecraft:impossible", conditions: {} }],
     requirementsMode: "AND",
-    customRequirements: [],
-    rewards: {
-      experience: 15,
-      recipes: [],
-      function: "",
-      loot: []
-    }
+    rewards: { experience: 15, recipes: [], function: "", loot: [] }
+  },
+  {
+    id: "fancy_armor",
+    parent: "branch_mid",
+    x: 370,
+    y: 300,
+    sends_telemetry_event: false,
+    display: {
+      title: "Ancient Relic Armor",
+      description: "Obtain the relic chestplate",
+      icon: "minecraft:netherite_chestplate",
+      frame: "challenge",
+      show_toast: true,
+      announce_to_chat: true,
+      hidden: false
+    },
+    criteria: [{ id: "requirement", trigger: "minecraft:impossible", conditions: {} }],
+    requirementsMode: "AND",
+    rewards: { experience: 500, recipes: ["minecraft:netherite_sword"], function: "", loot: [] }
+  },
+  {
+    id: "crafting_block",
+    parent: "root",
+    x: 180,
+    y: 330,
+    sends_telemetry_event: false,
+    display: {
+      title: "Workbench Master",
+      description: "Craft complex items",
+      icon: "minecraft:crafting_table",
+      frame: "task",
+      show_toast: true,
+      announce_to_chat: true,
+      hidden: false
+    },
+    criteria: [{ id: "requirement", trigger: "minecraft:impossible", conditions: {} }],
+    requirementsMode: "AND",
+    rewards: { experience: 20, recipes: [], function: "", loot: [] }
+  },
+  {
+    id: "enchant_book",
+    parent: "crafting_block",
+    x: 280,
+    y: 330,
+    sends_telemetry_event: false,
+    display: {
+      title: "Enchanted Book",
+      description: "Find an enchanted book",
+      icon: "minecraft:enchanted_book",
+      frame: "task",
+      show_toast: true,
+      announce_to_chat: true,
+      hidden: false
+    },
+    criteria: [{ id: "requirement", trigger: "minecraft:impossible", conditions: {} }],
+    requirementsMode: "AND",
+    rewards: { experience: 30, recipes: [], function: "", loot: [] }
+  },
+  {
+    id: "diamond_sword",
+    parent: "crafting_block",
+    x: 370,
+    y: 360,
+    sends_telemetry_event: false,
+    display: {
+      title: "Diamond Blade",
+      description: "Forge a diamond weapon",
+      icon: "minecraft:diamond_sword",
+      frame: "task",
+      show_toast: true,
+      announce_to_chat: true,
+      hidden: false
+    },
+    criteria: [{ id: "requirement", trigger: "minecraft:impossible", conditions: {} }],
+    requirementsMode: "AND",
+    rewards: { experience: 50, recipes: [], function: "", loot: [] }
   }
 ];
 
 // ==========================================
-// 4. ITEM & TEXTURE ASSET MANAGER
+// 5. ITEM & TEXTURE ASSET MANAGER
 // ==========================================
 async function loadItemsDatabase() {
   try {
-    let res = await fetch('./items.json');
+    let res = await fetch('../items.json');
+    if (!res.ok) res = await fetch('./items.json');
     if (!res.ok) res = await fetch('items.json');
     if (res.ok) {
       const data = await res.json();
       state.itemsList = data.values || [];
     }
   } catch (err) {
-    console.warn("Could not load items.json, using fallback list.", err);
+    console.warn("items.json fallback list used.", err);
     state.itemsList = [
-      "minecraft:grass_block", "minecraft:stone", "minecraft:cobblestone",
-      "minecraft:dirt", "minecraft:diamond", "minecraft:diamond_sword",
-      "minecraft:iron_ingot", "minecraft:iron_chestplate", "minecraft:bread",
-      "minecraft:golden_apple", "minecraft:elytra", "minecraft:nether_star",
-      "minecraft:ender_pearl", "minecraft:totem_of_undying", "minecraft:bow"
+      "minecraft:nether_star", "minecraft:diamond_sword", "minecraft:netherite_chestplate",
+      "minecraft:golden_apple", "minecraft:cauldron", "minecraft:brewing_stand",
+      "minecraft:totem_of_undying", "minecraft:suspicious_stew", "minecraft:beetroot_soup",
+      "minecraft:mushroom_stew", "minecraft:leather_helmet", "minecraft:enchanted_book",
+      "minecraft:crafting_table", "minecraft:potion", "minecraft:soul_lantern",
+      "minecraft:diamond", "minecraft:iron_ingot", "minecraft:elytra"
     ];
   }
+
+  // Populate Datalist for instant browser drop-bar
+  let datalist = document.getElementById('minecraftItemsList');
+  if (!datalist) {
+    datalist = document.createElement('datalist');
+    datalist.id = 'minecraftItemsList';
+    document.body.appendChild(datalist);
+  }
+  datalist.innerHTML = state.itemsList.map(item => `<option value="${item}"></option>`).join('');
 }
 
 function getItemTextureUrl(itemId) {
   if (!itemId) itemId = "minecraft:grass_block";
   const cleanId = itemId.replace("minecraft:", "");
-  
-  // Try item folder first, fallback handled via onerror
   return `${state.assetsBaseUrl}item/${cleanId}.png`;
 }
 
 function handleImageError(img, itemId) {
-  if (!img.dataset.triedBlock) {
-    img.dataset.triedBlock = "true";
-    const cleanId = itemId.replace("minecraft:", "");
+  const cleanId = (itemId || "grass_block").replace("minecraft:", "");
+  const step = parseInt(img.dataset.fallbackStep || "0");
+
+  if (step === 0) {
+    img.dataset.fallbackStep = "1";
     img.src = `${state.assetsBaseUrl}block/${cleanId}.png`;
-  } else if (!img.dataset.triedSvg) {
-    img.dataset.triedSvg = "true";
+  } else if (step === 1) {
+    img.dataset.fallbackStep = "2";
+    img.src = `https://raw.githubusercontent.com/PrismarineJS/minecraft-assets/master/data/1.20.4/items/${cleanId}.png`;
+  } else if (step === 2) {
+    img.dataset.fallbackStep = "3";
+    img.src = `https://raw.githubusercontent.com/PrismarineJS/minecraft-assets/master/data/1.20.4/blocks/${cleanId}.png`;
+  } else if (step === 3) {
+    img.dataset.fallbackStep = "4";
     img.src = createFallbackIcon(itemId);
   }
 }
 
 function createFallbackIcon(itemId) {
-  const char = (itemId || "M").replace("minecraft:", "").charAt(0).toUpperCase();
-  return `data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32"><rect width="32" height="32" fill="%23777" stroke="%23333" stroke-width="2"/><text x="16" y="22" fill="%23ffa600" font-family="monospace" font-size="18" font-weight="bold" text-anchor="middle">${char}</text></svg>`;
+  const clean = (itemId || "M").replace("minecraft:", "").replace(/[_-]/g, " ");
+  const firstLetter = clean.charAt(0).toUpperCase();
+  return `data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32"><rect width="32" height="32" rx="4" fill="%23222222" stroke="%23ffa600" stroke-width="2"/><text x="16" y="21" fill="%23ffa600" font-family="sans-serif" font-size="14" font-weight="900" text-anchor="middle">${firstLetter}</text></svg>`;
 }
 
 // ==========================================
-// 5. CANVAS & NAVIGATION CONTROLLER
+// 6. BACKGROUND ENGINE (CUSTOM & PRESETS)
 // ==========================================
-const canvasViewport = document.getElementById('canvasViewport');
-const canvasContent = document.getElementById('canvasContent');
-const nodesLayer = document.getElementById('nodesLayer');
-const connectionsSvg = document.getElementById('connectionsSvg');
-const canvasBgLayer = document.getElementById('canvasBgLayer');
+function setCanvasBackground(textureUrl) {
+  state.currentBackground = textureUrl;
+  const bgEl = document.getElementById('advCanvasBg');
+  if (bgEl) {
+    bgEl.style.backgroundImage = `url('${textureUrl}')`;
+    bgEl.style.backgroundSize = `${state.bgTileSize}px ${state.bgTileSize}px`;
+    bgEl.style.opacity = state.bgOpacity;
+  }
+}
+
+function handlePresetBgChange(presetKey) {
+  if (presetKey === "custom_url") {
+    openCustomBgModal();
+  } else if (BACKGROUND_PRESETS[presetKey]) {
+    setCanvasBackground(BACKGROUND_PRESETS[presetKey]);
+    showToast(`🖼️ Canvas background: ${presetKey}`);
+  }
+}
+
+function openCustomBgModal() {
+  document.getElementById('customBgModal').classList.add('open');
+}
+
+function closeCustomBgModal() {
+  document.getElementById('customBgModal').classList.remove('open');
+}
+
+function applyCustomBgUrl() {
+  const url = document.getElementById('customBgUrlInput').value.trim();
+  if (url) {
+    setCanvasBackground(url);
+    closeCustomBgModal();
+    showToast("✨ Custom background URL applied!");
+  }
+}
+
+function handleCustomBgFileUpload(event) {
+  const file = event.target.files[0];
+  if (!file) return;
+
+  const reader = new FileReader();
+  reader.onload = (e) => {
+    setCanvasBackground(e.target.result);
+    closeCustomBgModal();
+    showToast("🖼️ Custom local texture image applied!");
+  };
+  reader.readAsDataURL(file);
+}
+
+// ==========================================
+// 7. CANVAS NAVIGATION (PAN & ZOOM)
+// ==========================================
+const canvasContainer = document.getElementById('advCanvasContainer');
+const canvasSpace = document.getElementById('advCanvasSpace');
+const nodesLayer = document.getElementById('advNodesLayer');
+const connectionsSvg = document.getElementById('advConnectionsSvg');
+const canvasBg = document.getElementById('advCanvasBg');
 
 function updateCanvasTransform() {
-  canvasContent.style.transform = `translate(${state.panX}px, ${state.panY}px) scale(${state.scale})`;
-  if (canvasBgLayer) {
-    canvasBgLayer.style.transform = `translate(${state.panX % 64}px, ${state.panY % 64}px) scale(${state.scale})`;
+  canvasSpace.style.transform = `translate(${state.panX}px, ${state.panY}px) scale(${state.scale})`;
+  if (canvasBg) {
+    canvasBg.style.transform = `translate(${state.panX % state.bgTileSize}px, ${state.panY % state.bgTileSize}px) scale(${state.scale})`;
   }
-  document.getElementById('hudZoomText').textContent = `${Math.round(state.scale * 100)}%`;
 }
 
 function initCanvasEvents() {
-  // Panning with mouse drag on canvas background or middle button
-  canvasViewport.addEventListener('mousedown', (e) => {
-    if (e.target === canvasViewport || e.target === canvasBgLayer || e.button === 1) {
+  canvasContainer.addEventListener('mousedown', (e) => {
+    closeContextMenu();
+    if (e.target === canvasContainer || e.target === canvasBg || e.button === 1) {
       state.isPanning = true;
       state.startPanX = e.clientX - state.panX;
       state.startPanY = e.clientY - state.panY;
-      canvasViewport.classList.add('panning');
+      canvasContainer.classList.add('panning');
       e.preventDefault();
     }
   });
+
+  window.addEventListener('click', (e) => {
+    if (!e.target.closest('#nodeContextMenu')) {
+      closeContextMenu();
+    }
+  });
+
+  window.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') {
+      closeContextMenu();
+      closeActionModal();
+    }
+  });
+
+  const inputNew = document.getElementById('actionModalInputNew');
+  if (inputNew) {
+    inputNew.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter') {
+        submitActionModal();
+      }
+    });
+  }
 
   window.addEventListener('mousemove', (e) => {
     if (state.isPanning) {
       state.panX = e.clientX - state.startPanX;
       state.panY = e.clientY - state.startPanY;
       updateCanvasTransform();
-    } else if (state.dragNodeId) {
-      const dx = (e.clientX - state.dragStartX) / state.scale;
-      const dy = (e.clientY - state.dragStartY) / state.scale;
-      const node = state.advancements.find(a => a.id === state.dragNodeId);
-      if (node) {
-        node.x = Math.round(state.dragNodeInitialX + dx);
-        node.y = Math.round(state.dragNodeInitialY + dy);
-        renderNodePosition(node);
-        renderConnections();
-      }
     }
   });
 
   window.addEventListener('mouseup', () => {
     if (state.isPanning) {
       state.isPanning = false;
-      canvasViewport.classList.remove('panning');
-    }
-    if (state.dragNodeId) {
-      const el = document.getElementById(`node-${state.dragNodeId}`);
-      if (el) el.classList.remove('dragging');
-      state.dragNodeId = null;
+      canvasContainer.classList.remove('panning');
     }
   });
 
-  // Zooming via Wheel around mouse pointer
-  canvasViewport.addEventListener('wheel', (e) => {
+  // Wheel Zoom centered on cursor
+  canvasContainer.addEventListener('wheel', (e) => {
     e.preventDefault();
-    const zoomFactor = e.deltaY < 0 ? 1.12 : 0.88;
-    const newScale = Math.min(Math.max(state.scale * zoomFactor, 0.3), 2.5);
-    
-    // Zoom centered on cursor
-    const rect = canvasViewport.getBoundingClientRect();
+    closeContextMenu();
+    const factor = e.deltaY < 0 ? 1.12 : 0.88;
+    const newScale = Math.min(Math.max(state.scale * factor, 0.3), 2.5);
+
+    const rect = canvasContainer.getBoundingClientRect();
     const mouseX = e.clientX - rect.left;
     const mouseY = e.clientY - rect.top;
 
@@ -402,14 +593,10 @@ function initCanvasEvents() {
     updateCanvasTransform();
   }, { passive: false });
 
-  // Double Click on empty canvas to create a new advancement node
-  canvasViewport.addEventListener('dblclick', (e) => {
-    if (e.target === canvasViewport || e.target === canvasBgLayer) {
-      const rect = canvasViewport.getBoundingClientRect();
-      const clickX = (e.clientX - rect.left - state.panX) / state.scale;
-      const clickY = (e.clientY - rect.top - state.panY) / state.scale;
-      
-      createNewAdvancement(clickX, clickY);
+  // Double Click on empty canvas to create a new advancement root/node
+  canvasContainer.addEventListener('dblclick', (e) => {
+    if (e.target === canvasContainer || e.target === canvasBg) {
+      createNewAdvancement();
     }
   });
 }
@@ -426,18 +613,55 @@ function zoomOut() {
 
 function resetView() {
   state.scale = 1;
-  state.panX = 350;
-  state.panY = 200;
+  state.panX = 280;
+  state.panY = 220;
   updateCanvasTransform();
 }
 
 // ==========================================
-// 6. TREE LAYOUT & RENDERING
+// 8. TREE RENDERING & AUTOMATIC HIERARCHY
 // ==========================================
+function computeAutoLayout() {
+  // Identify all roots
+  const roots = state.advancements.filter(a => !a.parent || !state.advancements.some(p => p.id === a.parent));
+  if (roots.length === 0 && state.advancements.length > 0) {
+    roots.push(state.advancements[0]);
+  }
+
+  let currentY = 100;
+  const H_SPACING = 110;
+  const V_SPACING = 80;
+
+  function layoutNode(node, depth) {
+    node.x = 80 + depth * H_SPACING;
+    const children = state.advancements.filter(a => a.parent === node.id);
+
+    if (children.length === 0) {
+      node.y = currentY;
+      currentY += V_SPACING;
+      return;
+    }
+
+    children.forEach(child => {
+      layoutNode(child, depth + 1);
+    });
+
+    const firstY = children[0].y;
+    const lastY = children[children.length - 1].y;
+    node.y = Math.round((firstY + lastY) / 2);
+  }
+
+  roots.forEach(root => {
+    layoutNode(root, 0);
+    currentY += 40;
+  });
+}
+
 function renderAll() {
+  computeAutoLayout();
   renderNodes();
   renderConnections();
-  updateSidebar();
+  renderSidebar();
 }
 
 function renderNodes() {
@@ -451,7 +675,7 @@ function renderNodes() {
 function createNodeElement(node) {
   const div = document.createElement('div');
   div.id = `node-${node.id}`;
-  div.className = `adv-node ${state.selectedId === node.id ? 'selected' : ''}`;
+  div.className = `misode-node ${state.selectedId === node.id ? 'selected' : ''}`;
   div.style.left = `${node.x}px`;
   div.style.top = `${node.y}px`;
 
@@ -460,134 +684,75 @@ function createNodeElement(node) {
   const isRoot = !node.parent;
 
   div.innerHTML = `
-    <div class="node-frame-wrapper">
-      <div class="node-frame frame-${frameType}"></div>
-      <img class="node-icon" src="${iconUrl}" alt="${node.id}" onerror="handleImageError(this, '${node.display?.icon || ''}')">
-      ${isRoot ? '<div class="node-badge-root">ROOT</div>' : ''}
+    <div class="node-card frame-${frameType}">
+      <img class="node-item-img" src="${iconUrl}" alt="${node.id}" onerror="handleImageError(this, '${node.display?.icon || ''}')">
+      ${isRoot ? '<div class="node-root-badge">ROOT</div>' : ''}
     </div>
-    <div class="node-title-label">${escapeHtml(node.display?.title || node.id)}</div>
   `;
 
-  // Selection
+  // Left click: select node
   div.addEventListener('click', (e) => {
     e.stopPropagation();
+    closeContextMenu();
     selectAdvancement(node.id);
   });
 
-  // Dragging individual node
-  div.addEventListener('mousedown', (e) => {
-    if (e.button === 0) { // left click
-      e.stopPropagation();
-      state.dragNodeId = node.id;
-      state.dragStartX = e.clientX;
-      state.dragStartY = e.clientY;
-      state.dragNodeInitialX = node.x;
-      state.dragNodeInitialY = node.y;
-      div.classList.add('dragging');
-      selectAdvancement(node.id);
-    }
+  // Right Click: open context menu (New Child, New Parent, Delete)
+  div.addEventListener('contextmenu', (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    openContextMenu(node.id, e.clientX, e.clientY);
   });
 
   return div;
 }
 
-function renderNodePosition(node) {
-  const el = document.getElementById(`node-${node.id}`);
-  if (el) {
-    el.style.left = `${node.x}px`;
-    el.style.top = `${node.y}px`;
-  }
-}
-
 // ==========================================
-// 7. ORTHOGONAL DASHED CONNECTION LINES
+// 9. SOLID ORTHOGONAL STEPPED CONNECTIONS
 // ==========================================
 function renderConnections() {
   connectionsSvg.innerHTML = '';
-  
+
   state.advancements.forEach(node => {
     if (!node.parent) return;
     const parentNode = state.advancements.find(a => a.id === node.parent);
     if (!parentNode) return;
 
-    // Center coordinates
-    const x1 = parentNode.x;
+    // Connect from right edge of parent to left edge of child
+    const x1 = parentNode.x + 26;
     const y1 = parentNode.y;
-    const x2 = node.x;
+    const x2 = node.x - 26;
     const y2 = node.y;
 
-    // Step-wise orthogonal path (horizontal-vertical-horizontal)
-    const midX = x1 + (x2 - x1) / 2;
+    // Right-angle stepped line
+    const midX = (x1 + x2) / 2;
     const d = `M ${x1} ${y1} H ${midX} V ${y2} H ${x2}`;
-
     const isSelected = state.selectedId === node.id || state.selectedId === parentNode.id;
 
-    // Outer dark border stroke
-    const borderPath = document.createElementNS("http://www.w3.org/2000/svg", "path");
-    borderPath.setAttribute("d", d);
-    borderPath.setAttribute("class", `connection-line ${isSelected ? 'selected' : ''}`);
-    connectionsSvg.appendChild(borderPath);
+    // Outer dark outline
+    const outerPath = document.createElementNS("http://www.w3.org/2000/svg", "path");
+    outerPath.setAttribute("d", d);
+    outerPath.setAttribute("class", "tree-line-outer");
+    connectionsSvg.appendChild(outerPath);
 
-    // Inner dashed core stroke
-    const corePath = document.createElementNS("http://www.w3.org/2000/svg", "path");
-    corePath.setAttribute("d", d);
-    corePath.setAttribute("class", `connection-line-core ${isSelected ? 'selected' : ''}`);
-    connectionsSvg.appendChild(corePath);
+    // Inner crisp line
+    const innerPath = document.createElementNS("http://www.w3.org/2000/svg", "path");
+    innerPath.setAttribute("d", d);
+    innerPath.setAttribute("class", `tree-line-inner ${isSelected ? 'selected' : ''}`);
+    connectionsSvg.appendChild(innerPath);
   });
 }
 
 // ==========================================
-// 8. AUTO-LAYOUT TREE ALGORITHM
-// ==========================================
-function autoLayoutTree() {
-  const roots = state.advancements.filter(a => !a.parent || !state.advancements.some(p => p.id === a.parent));
-  if (roots.length === 0 && state.advancements.length > 0) {
-    roots.push(state.advancements[0]);
-  }
-
-  let currentY = 140;
-  const H_SPACING = 240;
-  const V_SPACING = 150;
-
-  function layoutSubtree(node, depth) {
-    node.x = 100 + depth * H_SPACING;
-    const children = state.advancements.filter(a => a.parent === node.id);
-
-    if (children.length === 0) {
-      node.y = currentY;
-      currentY += V_SPACING;
-      return;
-    }
-
-    const startY = currentY;
-    children.forEach(child => {
-      layoutSubtree(child, depth + 1);
-    });
-
-    const firstChildY = children[0].y;
-    const lastChildY = children[children.length - 1].y;
-    node.y = Math.round((firstChildY + lastChildY) / 2);
-  }
-
-  roots.forEach(root => {
-    layoutSubtree(root, 0);
-    currentY += 80;
-  });
-
-  renderAll();
-  showToast("🌳 Auto-Layout tree rearranged perfectly!");
-}
-
-// ==========================================
-// 9. ADVANCEMENT CRUD
+// 11. ADVANCEMENT SELECTION & CRUD
 // ==========================================
 function selectAdvancement(id) {
   state.selectedId = id;
-  document.querySelectorAll('.adv-node').forEach(el => {
+  document.querySelectorAll('.misode-node').forEach(el => {
     el.classList.toggle('selected', el.id === `node-${id}`);
   });
   renderConnections();
-  updateSidebar();
+  renderSidebar();
 }
 
 function createNewAdvancement(x, y, parentId) {
@@ -598,438 +763,619 @@ function createNewAdvancement(x, y, parentId) {
   const newAdv = {
     id: newId,
     parent: parent || null,
-    x: Math.round(x !== undefined ? x : 400),
-    y: Math.round(y !== undefined ? y : 300),
+    x: Math.round(x !== undefined ? x : 300),
+    y: Math.round(y !== undefined ? y : 200),
+    sends_telemetry_event: false,
     display: {
       title: `Advancement ${newNum}`,
-      description: "Unlock this quest by completing the criteria.",
-      icon: "minecraft:iron_sword",
+      description: "Unlock this quest by fulfilling the criteria.",
+      icon: "minecraft:diamond_sword",
       frame: "task",
       show_toast: true,
       announce_to_chat: true,
       hidden: false
     },
     criteria: [
-      {
-        id: "requirement_1",
-        trigger: "minecraft:inventory_changed",
-        conditions: {
-          items: [{ items: "minecraft:iron_sword" }]
-        }
-      }
+      { id: "requirement", trigger: "minecraft:impossible", conditions: {} }
     ],
     requirementsMode: "AND",
     customRequirements: [],
-    rewards: {
-      experience: 10,
-      recipes: [],
-      function: "",
-      loot: []
-    }
+    rewards: { experience: 10, recipes: [], function: "", loot: [] }
   };
 
   state.advancements.push(newAdv);
   renderAll();
   selectAdvancement(newId);
-  showToast(`✨ Created advancement "${newAdv.display.title}"`);
+  showToast(`✨ Created advancement "${newAdv.id}"`);
 }
 
-function addChildToSelected() {
-  if (!state.selectedId) {
-    showToast("⚠️ Select a node first to add a child!");
-    return;
-  }
-  const parent = state.advancements.find(a => a.id === state.selectedId);
-  if (!parent) return;
-
-  const childX = parent.x + 240;
-  const childY = parent.y + 20;
-  createNewAdvancement(childX, childY, parent.id);
-}
-
-function addRootAdvancement() {
-  const roots = state.advancements.filter(a => !a.parent);
-  const newNum = state.advancements.length + 1;
-  const newAdv = {
-    id: `root_${roots.length + 1}`,
-    parent: null,
-    x: 100,
-    y: 100 + roots.length * 200,
-    display: {
-      title: `New Quest Line ${roots.length + 1}`,
-      description: "A brand new root quest category.",
-      icon: "minecraft:nether_star",
-      frame: "task",
-      show_toast: true,
-      announce_to_chat: true,
-      hidden: false,
-      background: "minecraft:textures/gui/advancements/backgrounds/adventure.png"
-    },
-    criteria: [
-      {
-        id: "tick_root",
-        trigger: "minecraft:tick",
-        conditions: {}
-      }
-    ],
-    requirementsMode: "AND",
-    customRequirements: [],
-    rewards: { experience: 0, recipes: [], function: "", loot: [] }
-  };
-
-  state.advancements.push(newAdv);
-  renderAll();
-  selectAdvancement(newAdv.id);
-  showToast(`🌟 Created new Root advancement!`);
-}
-
-function deleteSelectedAdvancement() {
+function deleteCurrentAdvancement() {
   if (!state.selectedId) return;
-  const idToDelete = state.selectedId;
+  deleteAdvancementById(state.selectedId);
+}
 
-  // Re-link children to grandparent or null
+function deleteAdvancementById(idToDelete) {
   const nodeToDelete = state.advancements.find(a => a.id === idToDelete);
   const grandParent = nodeToDelete ? nodeToDelete.parent : null;
 
   state.advancements.forEach(a => {
-    if (a.parent === idToDelete) {
-      a.parent = grandParent;
-    }
+    if (a.parent === idToDelete) a.parent = grandParent;
   });
 
   state.advancements = state.advancements.filter(a => a.id !== idToDelete);
   state.selectedId = state.advancements.length > 0 ? state.advancements[0].id : null;
   renderAll();
-  showToast("🗑️ Advancement deleted.");
+  showToast("🗑️ Advancement removed.");
 }
 
 // ==========================================
-// 10. SIDEBAR EDITOR CONTROLLER
+// CONTEXT MENU CONTROLLER (RIGHT CLICK)
 // ==========================================
-function updateSidebar() {
-  const container = document.getElementById('sidebarContent');
-  if (!container) return;
+function openContextMenu(nodeId, clientX, clientY) {
+  state.contextMenuTargetId = nodeId;
+  selectAdvancement(nodeId);
+
+  const menu = document.getElementById('nodeContextMenu');
+  if (!menu) return;
+
+  menu.classList.add('open');
+  const rect = menu.getBoundingClientRect();
+  let x = clientX;
+  let y = clientY;
+
+  if (x + rect.width > window.innerWidth - 10) {
+    x = window.innerWidth - rect.width - 10;
+  }
+  if (y + rect.height > window.innerHeight - 10) {
+    y = window.innerHeight - rect.height - 10;
+  }
+
+  menu.style.left = `${x}px`;
+  menu.style.top = `${y}px`;
+}
+
+function closeContextMenu() {
+  const menu = document.getElementById('nodeContextMenu');
+  if (menu) menu.classList.remove('open');
+  state.contextMenuTargetId = null;
+}
+
+function contextMenuAction(action) {
+  const targetId = state.contextMenuTargetId || state.selectedId;
+  const targetNode = state.advancements.find(a => a.id === targetId);
+  closeContextMenu();
+  if (!targetNode) return;
+
+  if (action === 'child') {
+    openActionModal('child', targetNode);
+  } else if (action === 'parent') {
+    openActionModal('parent', targetNode);
+  } else if (action === 'delete') {
+    deleteAdvancementById(targetNode.id);
+  }
+}
+
+// ==========================================
+// PARENT / CHILD MODAL CONTROLLER (MISODE STYLE)
+// ==========================================
+function openActionModal(mode, targetNode) {
+  state.actionModalMode = mode;
+  state.actionModalTargetNode = targetNode;
+
+  const modal = document.getElementById('nodeActionModal');
+  const title = document.getElementById('actionModalTitle');
+  const labelRef = document.getElementById('actionModalLabelRef');
+  const inputRef = document.getElementById('actionModalInputRef');
+  const inputNew = document.getElementById('actionModalInputNew');
+  const submitBtn = document.getElementById('actionModalSubmitBtn');
+
+  if (!modal) return;
+
+  const fullTargetId = `${state.namespace}:${targetNode.id}`;
+  inputRef.value = fullTargetId;
+
+  if (mode === 'parent') {
+    title.textContent = "New Parent Advancement";
+    labelRef.textContent = "Child Advancement";
+    inputNew.value = `${state.namespace}:${targetNode.id}_parent`;
+    submitBtn.textContent = "Create Parent";
+  } else {
+    title.textContent = "New Child Advancement";
+    labelRef.textContent = "Parent Advancement";
+    inputNew.value = `${state.namespace}:${targetNode.id}_child`;
+    submitBtn.textContent = "Create Child";
+  }
+
+  modal.classList.add('open');
+  setTimeout(() => {
+    inputNew.focus();
+    inputNew.select();
+  }, 50);
+}
+
+function closeActionModal() {
+  const modal = document.getElementById('nodeActionModal');
+  if (modal) modal.classList.remove('open');
+  state.actionModalTargetNode = null;
+}
+
+function submitActionModal() {
+  const rawVal = (document.getElementById('actionModalInputNew').value || "").trim();
+  const targetNode = state.actionModalTargetNode || state.advancements.find(a => a.id === state.selectedId);
+  closeActionModal();
+
+  if (!targetNode || !rawVal) return;
+
+  let newNamespace = state.namespace;
+  let newId = rawVal;
+
+  if (rawVal.includes(':')) {
+    const parts = rawVal.split(':');
+    newNamespace = parts[0].trim();
+    newId = parts.slice(1).join(':').trim();
+  }
+
+  newId = newId.replace(/\s+/g, '_').toLowerCase();
+  state.namespace = newNamespace;
+
+  // Collision check
+  if (state.advancements.some(a => a.id === newId)) {
+    newId = `${newId}_${Date.now().toString().slice(-4)}`;
+  }
+
+  if (state.actionModalMode === 'parent') {
+    createParentAdvancement(targetNode, newId);
+  } else {
+    createChildAdvancement(targetNode, newId);
+  }
+}
+
+function createChildAdvancement(parentNode, customId) {
+  const newNum = state.advancements.length + 1;
+  const newId = customId || `advancement_${newNum}`;
+  const newChild = {
+    id: newId,
+    parent: parentNode.id,
+    x: parentNode.x + 110,
+    y: parentNode.y + 20,
+    sends_telemetry_event: false,
+    display: {
+      title: formatTitleFromId(newId),
+      description: "Unlock this quest by fulfilling criteria.",
+      icon: "minecraft:iron_sword",
+      frame: "task",
+      show_toast: true,
+      announce_to_chat: true,
+      hidden: false
+    },
+    criteria: [{ id: "requirement", trigger: "minecraft:impossible", conditions: {} }],
+    requirementsMode: "AND",
+    customRequirements: [],
+    rewards: { experience: 10, recipes: [], function: "", loot: [] }
+  };
+
+  state.advancements.push(newChild);
+  renderAll();
+  selectAdvancement(newId);
+  showToast(`✨ Created child "${newId}" for "${parentNode.id}"`);
+}
+
+function createParentAdvancement(childNode, customId) {
+  const newNum = state.advancements.length + 1;
+  const newParentId = customId || `parent_${newNum}`;
+  const oldParent = childNode.parent;
+
+  const newParent = {
+    id: newParentId,
+    parent: oldParent,
+    x: Math.max(childNode.x - 110, 40),
+    y: childNode.y,
+    sends_telemetry_event: false,
+    display: {
+      title: formatTitleFromId(newParentId),
+      description: "Prerequisite quest",
+      icon: "minecraft:book",
+      frame: "task",
+      show_toast: true,
+      announce_to_chat: true,
+      hidden: false
+    },
+    criteria: [{ id: "requirement", trigger: "minecraft:impossible", conditions: {} }],
+    requirementsMode: "AND",
+    customRequirements: [],
+    rewards: { experience: 10, recipes: [], function: "", loot: [] }
+  };
+
+  childNode.parent = newParentId;
+  state.advancements.push(newParent);
+  renderAll();
+  selectAdvancement(newParentId);
+  showToast(`✨ Created parent "${newParentId}" for "${childNode.id}"`);
+}
+
+function formatTitleFromId(id) {
+  return id
+    .replace(/[_-]/g, ' ')
+    .replace(/\b\w/g, c => c.toUpperCase());
+}
+
+// ==========================================
+// 12. SIDEBAR RENDERER (EXACT MISODE UI)
+// ==========================================
+function renderSidebar() {
+  const container = document.getElementById('sidebarScrollArea');
+  const previewImg = document.getElementById('largeIconImg');
+  const previewBox = document.getElementById('largeIconCard');
 
   const node = state.advancements.find(a => a.id === state.selectedId);
   if (!node) {
-    container.innerHTML = `
-      <div style="text-align: center; color: #666; margin-top: 50px;">
-        <p>No advancement selected.</p>
-        <p style="font-size: 11px; margin-top: 8px;">Click a node or double-click canvas to create one.</p>
-      </div>
-    `;
+    if (previewImg) previewImg.src = getItemTextureUrl("minecraft:barrier");
+    if (container) {
+      container.innerHTML = `
+        <div style="text-align: center; color: var(--text-muted); margin-top: 40px; font-size: 13px;">
+          <p>No advancement selected.</p>
+          <p style="font-size: 11px; margin-top: 6px;">Click a node on canvas or double-click to create one.</p>
+        </div>
+      `;
+    }
     return;
   }
 
-  const isRoot = !node.parent;
+  // Update top large preview box
+  const iconUrl = getItemTextureUrl(node.display?.icon);
+  if (previewImg) {
+    previewImg.src = iconUrl;
+    previewImg.onerror = () => handleImageError(previewImg, node.display?.icon);
+  }
+  if (previewBox) {
+    previewBox.onclick = openItemPickerModal;
+  }
 
-  // Build parent options
-  let parentOptionsHtml = `<option value="" ${isRoot ? 'selected' : ''}>-- [ROOT / NO PARENT] --</option>`;
+  // Build Parent Options
+  let parentOptionsHtml = `<option value="" ${!node.parent && !node.customParent ? 'selected' : ''}>-- (None / Root) --</option>`;
   state.advancements.forEach(a => {
     if (a.id !== node.id) {
-      parentOptionsHtml += `<option value="${a.id}" ${node.parent === a.id ? 'selected' : ''}>${escapeHtml(a.display?.title || a.id)} (${a.id})</option>`;
+      parentOptionsHtml += `<option value="${a.id}" ${node.parent === a.id ? 'selected' : ''}>${escapeHtml(a.id)} (${escapeHtml(a.display?.title || a.id)})</option>`;
     }
   });
 
   // Criteria HTML
   let criteriaHtml = '';
   node.criteria.forEach((crit, idx) => {
-    const triggerObj = MINECRAFT_TRIGGERS.find(t => t.id === crit.trigger) || { name: crit.trigger, desc: "" };
-    
-    // Dynamic fields for criteria conditions
-    let conditionInputsHtml = '';
-    if (crit.trigger === "minecraft:inventory_changed") {
-      const currentItem = crit.conditions?.items?.[0]?.items || "minecraft:diamond";
-      conditionInputsHtml = `
-        <div class="gui-row">
-          <label class="gui-label">Item Required:</label>
-          <input type="text" class="gui-input" value="${escapeHtml(currentItem)}" onchange="updateCriteriaItem(${idx}, this.value)">
-        </div>
-      `;
-    } else if (crit.trigger === "minecraft:recipe_unlocked" || crit.trigger === "minecraft:recipe_crafted") {
-      const recipeId = crit.conditions?.recipe || "minecraft:wooden_pickaxe";
-      conditionInputsHtml = `
-        <div class="gui-row">
-          <label class="gui-label">Recipe ID:</label>
-          <input type="text" class="gui-input" value="${escapeHtml(recipeId)}" onchange="updateCriteriaRecipe(${idx}, this.value)">
-        </div>
-      `;
-    } else if (crit.trigger === "minecraft:player_killed_entity") {
-      const entityType = crit.conditions?.entity?.type || "minecraft:zombie";
-      conditionInputsHtml = `
-        <div class="gui-row">
-          <label class="gui-label">Entity Type:</label>
-          <input type="text" class="gui-input" value="${escapeHtml(entityType)}" onchange="updateCriteriaEntity(${idx}, this.value)">
-        </div>
-      `;
-    } else if (crit.trigger === "minecraft:location") {
-      const biome = crit.conditions?.biome || "";
-      const dimension = crit.conditions?.dimension || "";
-      conditionInputsHtml = `
-        <div class="gui-row">
-          <label class="gui-label">Biome (optional):</label>
-          <input type="text" class="gui-input" placeholder="e.g. minecraft:desert" value="${escapeHtml(biome)}" onchange="updateCriteriaLocation(${idx}, 'biome', this.value)">
-        </div>
-        <div class="gui-row">
-          <label class="gui-label">Dimension (optional):</label>
-          <input type="text" class="gui-input" placeholder="e.g. minecraft:the_nether" value="${escapeHtml(dimension)}" onchange="updateCriteriaLocation(${idx}, 'dimension', this.value)">
-        </div>
-      `;
-    }
-
-    // Trigger select options
-    let triggerSelectHtml = '';
+    let triggerOptionsHtml = '';
     MINECRAFT_TRIGGERS.forEach(trig => {
-      triggerSelectHtml += `<option value="${trig.id}" ${crit.trigger === trig.id ? 'selected' : ''}>${trig.name} (${trig.id})</option>`;
+      triggerOptionsHtml += `<option value="${trig.id}" ${crit.trigger === trig.id ? 'selected' : ''}>${trig.id}</option>`;
     });
 
     criteriaHtml += `
-      <div class="criteria-item">
-        <div class="criteria-item-header">
-          <span class="criteria-name-tag">#${idx + 1} ${escapeHtml(crit.id)}</span>
-          <button class="btn-del-criteria" onclick="removeCriteria(${idx})">✕ Del</button>
+      <div class="criteria-block">
+        <div class="criteria-block-header">
+          <input type="text" class="misode-input" style="font-weight: bold; color: var(--accent-gold);" value="${escapeHtml(crit.id)}" onchange="updateCriteriaId(${idx}, this.value)">
+          <button class="chest-btn btn-remove" onclick="removeCriteria(${idx})" title="Remove criterion">🗑️</button>
         </div>
-        <div class="gui-row">
-          <label class="gui-label">Criteria ID:</label>
-          <input type="text" class="gui-input" value="${escapeHtml(crit.id)}" onchange="updateCriteriaId(${idx}, this.value)">
+        <div class="form-row">
+          <label class="form-label">Trigger* <span class="info-icon" title="Trigger that checks when this requirement is met">ⓘ</span></label>
+          <div class="input-with-action">
+            <select class="misode-select" onchange="updateCriteriaTrigger(${idx}, this.value)">
+              ${triggerOptionsHtml}
+            </select>
+          </div>
         </div>
-        <div class="gui-row">
-          <label class="gui-label">Trigger Event (57 Official):</label>
-          <select class="gui-select" onchange="updateCriteriaTrigger(${idx}, this.value)">
-            ${triggerSelectHtml}
-          </select>
-        </div>
-        ${conditionInputsHtml}
       </div>
     `;
   });
 
-  // Recipes list string
-  const recipesStr = (node.rewards?.recipes || []).join(", ");
+  // Display Fields
+  const displayObj = node.display || {};
 
   container.innerHTML = `
-    <!-- DISPLAY SETTINGS -->
-    <div class="gui-group">
-      <div class="gui-group-title">
-        <span>📜 DISPLAY & METADATA</span>
-        <span class="badge">${node.id}</span>
+    <!-- ADVANCEMENT ID -->
+    <div class="form-row">
+      <label class="form-label">Advancement ID <span class="info-icon" title="Unique ID in data pack namespace">ⓘ</span></label>
+      <div class="input-with-action">
+        <input type="text" class="misode-input" value="${escapeHtml(node.id)}" onchange="updateAdvancementId(this.value)">
       </div>
+    </div>
 
-      <div class="gui-row">
-        <label class="gui-label">Advancement ID:</label>
-        <input type="text" class="gui-input" id="inpNodeId" value="${escapeHtml(node.id)}" onchange="updateSelectedField('id', this.value)">
-      </div>
-
-      <div class="gui-row">
-        <label class="gui-label">Title:</label>
-        <input type="text" class="gui-input" value="${escapeHtml(node.display?.title || '')}" oninput="updateDisplayField('title', this.value)">
-      </div>
-
-      <div class="gui-row">
-        <label class="gui-label">Description:</label>
-        <textarea class="gui-textarea" oninput="updateDisplayField('description', this.value)">${escapeHtml(node.display?.description || '')}</textarea>
-      </div>
-
-      <div class="gui-row">
-        <label class="gui-label">Icon (Item):</label>
-        <div class="icon-picker-box">
-          <div class="slot-icon-display" onclick="openItemPickerModal()" title="Click to pick an item">
-            <img src="${getItemTextureUrl(node.display?.icon)}" alt="icon" onerror="handleImageError(this, '${node.display?.icon || ''}')">
-          </div>
-          <input type="text" class="gui-input" style="flex: 1;" value="${escapeHtml(node.display?.icon || 'minecraft:grass_block')}" onchange="updateDisplayField('icon', this.value)">
-        </div>
-      </div>
-
-      <div class="gui-row">
-        <label class="gui-label">Frame Type:</label>
-        <div class="frame-radio-group">
-          <div class="frame-radio-btn ${node.display?.frame === 'task' ? 'active' : ''}" onclick="setFrameType('task')">
-            <span>Square</span>
-            <strong>Task</strong>
-          </div>
-          <div class="frame-radio-btn ${node.display?.frame === 'goal' ? 'active' : ''}" onclick="setFrameType('goal')">
-            <span>Circle</span>
-            <strong>Goal</strong>
-          </div>
-          <div class="frame-radio-btn ${node.display?.frame === 'challenge' ? 'active' : ''}" onclick="setFrameType('challenge')">
-            <span>Diamond</span>
-            <strong>Challenge</strong>
-          </div>
-        </div>
-      </div>
-
-      <div class="gui-row row-horizontal" style="margin-top: 10px;">
-        <label class="gui-label">Show Toast Notification:</label>
-        <label class="mc-switch">
-          <input type="checkbox" ${node.display?.show_toast !== false ? 'checked' : ''} onchange="updateDisplayField('show_toast', this.checked)">
-          <div class="mc-switch-slider"></div>
-        </label>
-      </div>
-
-      <div class="gui-row row-horizontal">
-        <label class="gui-label">Announce to Chat:</label>
-        <label class="mc-switch">
-          <input type="checkbox" ${node.display?.announce_to_chat !== false ? 'checked' : ''} onchange="updateDisplayField('announce_to_chat', this.checked)">
-          <div class="mc-switch-slider"></div>
-        </label>
-      </div>
-
-      <div class="gui-row row-horizontal">
-        <label class="gui-label">Hidden until unlocked:</label>
-        <label class="mc-switch">
-          <input type="checkbox" ${node.display?.hidden ? 'checked' : ''} onchange="updateDisplayField('hidden', this.checked)">
-          <div class="mc-switch-slider"></div>
-        </label>
-      </div>
-
-      <div class="gui-row" style="margin-top: 10px;">
-        <label class="gui-label">Parent / Connected Node:</label>
-        <select class="gui-select" onchange="updateSelectedParent(this.value)">
+    <!-- PARENT -->
+    <div class="form-row">
+      <label class="form-label">Parent <span class="info-icon" title="Parent advancement ID or path (e.g. custom:root or minecraft:story/root)">ⓘ</span></label>
+      <div class="input-with-action">
+        <select class="misode-select" onchange="updateParent(this.value)">
           ${parentOptionsHtml}
         </select>
+        <button class="chest-btn" onclick="updateParent('')" title="Clear Parent">📦</button>
       </div>
-
-      <div class="gui-row">
-        <label class="gui-label">Custom Parent Path (External/Vanilla):</label>
-        <input type="text" class="gui-input" placeholder="e.g. minecraft:recipes/root" value="${escapeHtml(node.customParent || '')}" onchange="updateSelectedField('customParent', this.value)">
-      </div>
-
-      ${isRoot ? `
-        <div class="gui-row" style="margin-top: 8px;">
-          <label class="gui-label">Root Background Texture:</label>
-          <input type="text" class="gui-input" value="${escapeHtml(node.display?.background || 'minecraft:textures/gui/advancements/backgrounds/adventure.png')}" onchange="updateDisplayField('background', this.value)">
-        </div>
-      ` : ''}
     </div>
 
-    <!-- CRITERIA & TRIGGERS -->
-    <div class="gui-group">
-      <div class="gui-group-title">
-        <span>⚡ CRITERIA & TRIGGERS (${node.criteria.length})</span>
-        <button class="mc-btn btn-primary" style="padding: 3px 8px; font-size: 11px;" onclick="addCriteria()">+ Add</button>
-      </div>
-
-      <div id="criteriaListContainer">
-        ${criteriaHtml}
-      </div>
-
-      <div class="gui-row" style="margin-top: 10px;">
-        <label class="gui-label">Requirements Logic (AND / OR):</label>
-        <select class="gui-select" onchange="updateRequirementsMode(this.value)">
-          <option value="AND" ${node.requirementsMode === 'AND' ? 'selected' : ''}>AND - All criteria must be fulfilled</option>
-          <option value="OR" ${node.requirementsMode === 'OR' ? 'selected' : ''}>OR - Any single criterion unlocks advancement</option>
+    <!-- SENDS TELEMETRY EVENT -->
+    <div class="form-row">
+      <label class="form-label">Sends Telemetry Event <span class="info-icon" title="Whether this advancement sends telemetry event to Minecraft">ⓘ</span></label>
+      <div class="input-with-action">
+        <select class="misode-select" onchange="updateSelectedField('sends_telemetry_event', this.value === 'true')">
+          <option value="false" ${node.sends_telemetry_event !== true ? 'selected' : ''}>false</option>
+          <option value="true" ${node.sends_telemetry_event === true ? 'selected' : ''}>true</option>
         </select>
+        <button class="chest-btn" title="Default">📦</button>
       </div>
     </div>
 
-    <!-- REWARDS -->
-    <div class="gui-group">
-      <div class="gui-group-title">
-        <span>🎁 REWARDS</span>
+    <!-- CRITERIA ACCORDION -->
+    <div class="misode-accordion open" id="accordionCriteria">
+      <div class="accordion-title-bar" onclick="toggleAccordion('accordionCriteria')">
+        <div class="title-left">
+          <span class="arrow-icon">▶</span>
+          <span>Criteria* <span class="info-icon" title="List of criteria required to unlock advancement">ⓘ</span></span>
+        </div>
+        <span style="font-size: 11px; color: var(--text-muted);">${node.criteria.length} item(s)</span>
       </div>
-
-      <div class="gui-row">
-        <label class="gui-label">Experience (XP):</label>
-        <input type="number" class="gui-input" value="${node.rewards?.experience || 0}" onchange="updateRewardField('experience', parseInt(this.value) || 0)">
-      </div>
-
-      <div class="gui-row">
-        <label class="gui-label">Recipes Unlocked (comma separated):</label>
-        <input type="text" class="gui-input" placeholder="minecraft:diamond_sword, minecraft:shield" value="${escapeHtml(recipesStr)}" onchange="updateRewardRecipes(this.value)">
-      </div>
-
-      <div class="gui-row">
-        <label class="gui-label">Function to Run (.mcfunction):</label>
-        <input type="text" class="gui-input" placeholder="namespace:quest/reward_player" value="${escapeHtml(node.rewards?.function || '')}" onchange="updateRewardField('function', this.value)">
+      <div class="accordion-content">
+        ${criteriaHtml}
+        <div class="input-with-action" style="max-width: 100%; margin-top: 6px;">
+          <input type="text" id="newCritIdInput" class="misode-input" placeholder="New criterion key (e.g. item_crafted)...">
+          <button class="chest-btn btn-add" onclick="addNewCriteriaFromInput()" title="Add criterion">➕</button>
+        </div>
       </div>
     </div>
 
-    <!-- QUICK ACTIONS -->
-    <div class="gui-group">
-      <div class="gui-group-title">
-        <span>⚙️ QUICK ACTIONS</span>
+    <!-- DISPLAY ACCORDION -->
+    <div class="misode-accordion open" id="accordionDisplay">
+      <div class="accordion-title-bar" onclick="toggleAccordion('accordionDisplay')">
+        <div class="title-left">
+          <span class="arrow-icon">▶</span>
+          <span>> Display <span class="info-icon" title="Visual appearance in the in-game advancement GUI">ⓘ</span></span>
+        </div>
       </div>
-      <div style="display: flex; flex-direction: column; gap: 8px;">
-        <button class="mc-btn btn-primary" onclick="addChildToSelected()">➕ Add Child Node to This</button>
-        <button class="mc-btn btn-danger" onclick="deleteSelectedAdvancement()">🗑️ Delete This Advancement</button>
+      <div class="accordion-content">
+        <div class="form-row">
+          <label class="form-label">Icon (Item) <span class="info-icon" title="Item icon displayed on the advancement frame">ⓘ</span></label>
+          <div class="input-with-action">
+            <input type="text" class="misode-input" list="minecraftItemsList" value="${escapeHtml(displayObj.icon || 'minecraft:grass_block')}" oninput="updateDisplayField('icon', this.value)" onchange="updateDisplayField('icon', this.value)">
+            <button class="chest-btn" onclick="openItemPickerModal()" title="Search Items">🔍</button>
+          </div>
+        </div>
+
+        <div class="form-row">
+          <label class="form-label">Title <span class="info-icon" title="Title displayed in GUI and chat">ⓘ</span></label>
+          <div class="input-with-action">
+            <input type="text" class="misode-input" value="${escapeHtml(displayObj.title || '')}" oninput="updateDisplayField('title', this.value)">
+          </div>
+        </div>
+
+        <div class="form-row">
+          <label class="form-label">Description <span class="info-icon" title="Description hover text">ⓘ</span></label>
+          <div class="input-with-action">
+            <input type="text" class="misode-input" value="${escapeHtml(displayObj.description || '')}" oninput="updateDisplayField('description', this.value)">
+          </div>
+        </div>
+
+        <div class="form-row">
+          <label class="form-label">Frame <span class="info-icon" title="Task (square), Goal (rounded), Challenge (diamond)">ⓘ</span></label>
+          <div class="input-with-action">
+            <select class="misode-select" onchange="updateDisplayField('frame', this.value)">
+              <option value="task" ${displayObj.frame === 'task' ? 'selected' : ''}>task (Square)</option>
+              <option value="goal" ${displayObj.frame === 'goal' ? 'selected' : ''}>goal (Rounded)</option>
+              <option value="challenge" ${displayObj.frame === 'challenge' ? 'selected' : ''}>challenge (Diamond)</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="form-row">
+          <label class="form-label">Show Toast <span class="info-icon" title="Show notification popup top-right">ⓘ</span></label>
+          <div class="input-with-action">
+            <select class="misode-select" onchange="updateDisplayField('show_toast', this.value === 'true')">
+              <option value="true" ${displayObj.show_toast !== false ? 'selected' : ''}>true</option>
+              <option value="false" ${displayObj.show_toast === false ? 'selected' : ''}>false</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="form-row">
+          <label class="form-label">Announce to Chat <span class="info-icon" title="Broadcast in chat when unlocked">ⓘ</span></label>
+          <div class="input-with-action">
+            <select class="misode-select" onchange="updateDisplayField('announce_to_chat', this.value === 'true')">
+              <option value="true" ${displayObj.announce_to_chat !== false ? 'selected' : ''}>true</option>
+              <option value="false" ${displayObj.announce_to_chat === false ? 'selected' : ''}>false</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="form-row">
+          <label class="form-label">Hidden <span class="info-icon" title="Hidden until unlocked in GUI">ⓘ</span></label>
+          <div class="input-with-action">
+            <select class="misode-select" onchange="updateDisplayField('hidden', this.value === 'true')">
+              <option value="false" ${!displayObj.hidden ? 'selected' : ''}>false</option>
+              <option value="true" ${displayObj.hidden ? 'selected' : ''}>true</option>
+            </select>
+          </div>
+        </div>
+
+        ${!node.parent ? `
+          <div class="form-row">
+            <label class="form-label">Background <span class="info-icon" title="Background texture for root advancement">ⓘ</span></label>
+            <div class="input-with-action">
+              <input type="text" class="misode-input" value="${escapeHtml(displayObj.background || 'minecraft:textures/gui/advancements/backgrounds/adventure.png')}" onchange="updateDisplayField('background', this.value)">
+            </div>
+          </div>
+        ` : ''}
+      </div>
+    </div>
+
+    <!-- REQUIREMENTS ACCORDION -->
+    <div class="misode-accordion" id="accordionRequirements">
+      <div class="accordion-title-bar" onclick="toggleAccordion('accordionRequirements')">
+        <div class="title-left">
+          <span class="arrow-icon">▶</span>
+          <span>> Requirements <span class="info-icon" title="AND / OR condition combinations">ⓘ</span></span>
+        </div>
+      </div>
+      <div class="accordion-content">
+        <div class="form-row">
+          <label class="form-label">Logic Mode:</label>
+          <div class="input-with-action">
+            <select class="misode-select" onchange="updateRequirementsMode(this.value)">
+              <option value="AND" ${node.requirementsMode === 'AND' ? 'selected' : ''}>AND (All criteria required)</option>
+              <option value="OR" ${node.requirementsMode === 'OR' ? 'selected' : ''}>OR (Any single criterion unlocks)</option>
+            </select>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- REWARDS ACCORDION -->
+    <div class="misode-accordion" id="accordionRewards">
+      <div class="accordion-title-bar" onclick="toggleAccordion('accordionRewards')">
+        <div class="title-left">
+          <span class="arrow-icon">▶</span>
+          <span>> Rewards <span class="info-icon" title="Rewards granted to player on unlock">ⓘ</span></span>
+        </div>
+      </div>
+      <div class="accordion-content">
+        <div class="form-row">
+          <label class="form-label">Experience (XP):</label>
+          <div class="input-with-action">
+            <input type="number" class="misode-input" value="${node.rewards?.experience || 0}" onchange="updateRewardField('experience', parseInt(this.value) || 0)">
+          </div>
+        </div>
+        <div class="form-row">
+          <label class="form-label">Recipes (comma list):</label>
+          <div class="input-with-action">
+            <input type="text" class="misode-input" placeholder="minecraft:diamond_sword" value="${escapeHtml((node.rewards?.recipes || []).join(', '))}" onchange="updateRewardRecipes(this.value)">
+          </div>
+        </div>
+        <div class="form-row">
+          <label class="form-label">Function (.mcfunction):</label>
+          <div class="input-with-action">
+            <input type="text" class="misode-input" placeholder="namespace:quest/reward" value="${escapeHtml(node.rewards?.function || '')}" onchange="updateRewardField('function', this.value)">
+          </div>
+        </div>
       </div>
     </div>
   `;
 }
 
+// Toggle accordion
+function toggleAccordion(id) {
+  const el = document.getElementById(id);
+  if (el) el.classList.toggle('open');
+}
+
 // Field updates
-function updateSelectedField(field, value) {
+function updateAdvancementId(newId) {
+  const cleanId = newId.trim().replace(/\s+/g, '_').toLowerCase();
   const node = state.advancements.find(a => a.id === state.selectedId);
-  if (!node) return;
+  if (!node || !cleanId) return;
 
-  if (field === 'id') {
-    const oldId = node.id;
-    const cleanId = value.trim().replace(/\s+/g, '_').toLowerCase();
-    if (!cleanId) return;
-    
-    // Check collision
-    if (state.advancements.some(a => a.id === cleanId && a !== node)) {
-      showToast("⚠️ ID already exists! Please use a unique ID.");
-      return;
-    }
-
-    node.id = cleanId;
-    state.selectedId = cleanId;
-
-    // Update children parent references
-    state.advancements.forEach(a => {
-      if (a.parent === oldId) a.parent = cleanId;
-    });
-  } else {
-    node[field] = value;
+  if (state.advancements.some(a => a.id === cleanId && a !== node)) {
+    showToast("⚠️ ID already exists! Please pick a unique ID.");
+    return;
   }
 
+  const oldId = node.id;
+  node.id = cleanId;
+  state.selectedId = cleanId;
+
+  // Update children
+  state.advancements.forEach(a => {
+    if (a.parent === oldId) a.parent = cleanId;
+  });
+
   renderAll();
 }
 
-function updateDisplayField(field, value) {
-  const node = state.advancements.find(a => a.id === state.selectedId);
-  if (!node) return;
-  if (!node.display) node.display = {};
-  node.display[field] = value;
-  renderAll();
-}
-
-function setFrameType(type) {
-  updateDisplayField('frame', type);
-}
-
-function updateSelectedParent(parentId) {
+function updateParent(parentId) {
   const node = state.advancements.find(a => a.id === state.selectedId);
   if (!node) return;
   node.parent = parentId || null;
   renderAll();
 }
 
-// Criteria updates
-function addCriteria() {
+function updateSelectedField(field, val) {
+  const node = state.advancements.find(a => a.id === state.selectedId);
+  if (node) {
+    node[field] = val;
+  }
+}
+
+function updateDisplayField(field, val) {
   const node = state.advancements.find(a => a.id === state.selectedId);
   if (!node) return;
-  const num = node.criteria.length + 1;
-  node.criteria.push({
-    id: `requirement_${num}`,
-    trigger: "minecraft:inventory_changed",
-    conditions: {
-      items: [{ items: "minecraft:diamond" }]
+  if (!node.display) node.display = {};
+  node.display[field] = val;
+
+  if (field === 'icon') {
+    const previewImg = document.getElementById('largeIconImg');
+    if (previewImg) {
+      previewImg.dataset.fallbackStep = "0";
+      previewImg.src = getItemTextureUrl(val);
     }
+    const nodeEl = document.getElementById(`node-${node.id}`);
+    if (nodeEl) {
+      const img = nodeEl.querySelector('.node-item-img');
+      if (img) {
+        img.dataset.fallbackStep = "0";
+        img.src = getItemTextureUrl(val);
+      }
+    }
+  } else if (field === 'frame') {
+    const nodeEl = document.getElementById(`node-${node.id}`);
+    if (nodeEl) {
+      const cardEl = nodeEl.querySelector('.node-card');
+      if (cardEl) {
+        cardEl.className = `node-card frame-${val}`;
+      }
+    }
+  }
+}
+
+function updateRequirementsMode(mode) {
+  const node = state.advancements.find(a => a.id === state.selectedId);
+  if (node) node.requirementsMode = mode;
+}
+
+function updateRewardField(field, val) {
+  const node = state.advancements.find(a => a.id === state.selectedId);
+  if (node) {
+    if (!node.rewards) node.rewards = {};
+    node.rewards[field] = val;
+  }
+}
+
+function updateRewardRecipes(str) {
+  const node = state.advancements.find(a => a.id === state.selectedId);
+  if (node) {
+    if (!node.rewards) node.rewards = {};
+    node.rewards.recipes = str.split(',').map(s => s.trim()).filter(s => s.length > 0);
+  }
+}
+
+// Criteria updates
+function addNewCriteriaFromInput() {
+  const input = document.getElementById('newCritIdInput');
+  const node = state.advancements.find(a => a.id === state.selectedId);
+  if (!node) return;
+
+  const key = (input.value || `requirement_${node.criteria.length + 1}`).trim();
+  node.criteria.push({
+    id: key,
+    trigger: "minecraft:impossible",
+    conditions: {}
   });
-  renderAll();
+
+  input.value = "";
+  renderSidebar();
+  showToast(`➕ Added criterion '${key}'`);
 }
 
 function removeCriteria(idx) {
   const node = state.advancements.find(a => a.id === state.selectedId);
   if (!node) return;
   if (node.criteria.length <= 1) {
-    showToast("⚠️ An advancement must have at least 1 criterion!");
+    showToast("⚠️ At least 1 criterion is required!");
     return;
   }
   node.criteria.splice(idx, 1);
-  renderAll();
+  renderSidebar();
 }
 
 function updateCriteriaId(idx, val) {
@@ -1043,90 +1389,20 @@ function updateCriteriaTrigger(idx, val) {
   const node = state.advancements.find(a => a.id === state.selectedId);
   if (node && node.criteria[idx]) {
     node.criteria[idx].trigger = val;
-    // Reset conditions default based on trigger
-    if (val === "minecraft:inventory_changed") {
-      node.criteria[idx].conditions = { items: [{ items: "minecraft:diamond" }] };
-    } else if (val === "minecraft:recipe_unlocked" || val === "minecraft:recipe_crafted") {
-      node.criteria[idx].conditions = { recipe: "minecraft:iron_sword" };
-    } else if (val === "minecraft:player_killed_entity") {
-      node.criteria[idx].conditions = { entity: { type: "minecraft:zombie" } };
-    } else if (val === "minecraft:location") {
-      node.criteria[idx].conditions = { biome: "minecraft:plains" };
-    } else {
-      node.criteria[idx].conditions = {};
-    }
-    updateSidebar();
-  }
-}
-
-function updateCriteriaItem(idx, itemVal) {
-  const node = state.advancements.find(a => a.id === state.selectedId);
-  if (node && node.criteria[idx]) {
-    node.criteria[idx].conditions = { items: [{ items: itemVal.trim() }] };
-  }
-}
-
-function updateCriteriaRecipe(idx, recipeVal) {
-  const node = state.advancements.find(a => a.id === state.selectedId);
-  if (node && node.criteria[idx]) {
-    node.criteria[idx].conditions = { recipe: recipeVal.trim() };
-  }
-}
-
-function updateCriteriaEntity(idx, entityVal) {
-  const node = state.advancements.find(a => a.id === state.selectedId);
-  if (node && node.criteria[idx]) {
-    node.criteria[idx].conditions = { entity: { type: entityVal.trim() } };
-  }
-}
-
-function updateCriteriaLocation(idx, prop, val) {
-  const node = state.advancements.find(a => a.id === state.selectedId);
-  if (node && node.criteria[idx]) {
-    if (!node.criteria[idx].conditions) node.criteria[idx].conditions = {};
-    if (val.trim()) {
-      node.criteria[idx].conditions[prop] = val.trim();
-    } else {
-      delete node.criteria[idx].conditions[prop];
-    }
-  }
-}
-
-function updateRequirementsMode(mode) {
-  const node = state.advancements.find(a => a.id === state.selectedId);
-  if (node) {
-    node.requirementsMode = mode;
-  }
-}
-
-// Reward updates
-function updateRewardField(field, val) {
-  const node = state.advancements.find(a => a.id === state.selectedId);
-  if (node) {
-    if (!node.rewards) node.rewards = {};
-    node.rewards[field] = val;
-  }
-}
-
-function updateRewardRecipes(recipesStr) {
-  const node = state.advancements.find(a => a.id === state.selectedId);
-  if (node) {
-    if (!node.rewards) node.rewards = {};
-    node.rewards.recipes = recipesStr.split(',').map(s => s.trim()).filter(s => s.length > 0);
   }
 }
 
 // ==========================================
-// 11. ITEM PICKER MODAL
+// 13. ITEM PICKER MODAL
 // ==========================================
-let itemPickerFilter = "";
+let itemSearchQuery = "";
 
 function openItemPickerModal() {
   const modal = document.getElementById('itemPickerModal');
   const searchInput = document.getElementById('itemSearchInput');
   modal.classList.add('open');
   searchInput.value = "";
-  itemPickerFilter = "";
+  itemSearchQuery = "";
   renderItemPickerGrid();
   searchInput.focus();
 }
@@ -1135,48 +1411,51 @@ function closeItemPickerModal() {
   document.getElementById('itemPickerModal').classList.remove('open');
 }
 
+function filterItemsCategory(cat) {
+  const searchInput = document.getElementById('itemSearchInput');
+  searchInput.value = cat;
+  itemSearchQuery = cat;
+  renderItemPickerGrid();
+  searchInput.focus();
+}
+
 function renderItemPickerGrid() {
   const grid = document.getElementById('itemGrid');
   grid.innerHTML = '';
 
-  const filter = itemPickerFilter.toLowerCase().trim();
-  const matched = state.itemsList.filter(item => item.toLowerCase().includes(filter)).slice(0, 150);
+  const filter = itemSearchQuery.toLowerCase().trim();
+  const matched = state.itemsList.filter(item => item.toLowerCase().includes(filter)).slice(0, 400);
 
   matched.forEach(itemId => {
-    const btn = document.createElement('div');
-    btn.className = 'item-slot-btn';
-    btn.title = itemId;
+    const slot = document.createElement('div');
+    slot.className = 'item-picker-slot';
+    slot.title = itemId;
     const url = getItemTextureUrl(itemId);
 
-    btn.innerHTML = `<img src="${url}" alt="${itemId}" onerror="handleImageError(this, '${itemId}')">`;
-    btn.addEventListener('click', () => {
-      selectItemForCurrentNode(itemId);
+    slot.innerHTML = `<img src="${url}" alt="${itemId}" onerror="handleImageError(this, '${itemId}')">`;
+    slot.addEventListener('click', () => {
+      updateDisplayField('icon', itemId);
       closeItemPickerModal();
     });
 
-    grid.appendChild(btn);
+    grid.appendChild(slot);
   });
-}
-
-function selectItemForCurrentNode(itemId) {
-  updateDisplayField('icon', itemId);
 }
 
 function initItemPickerEvents() {
   const searchInput = document.getElementById('itemSearchInput');
   searchInput.addEventListener('input', (e) => {
-    itemPickerFilter = e.target.value;
+    itemSearchQuery = e.target.value;
     renderItemPickerGrid();
   });
 }
 
 // ==========================================
-// 12. JSON GENERATION (VANILLA COMPLIANT)
+// 14. JSON BUILDER & INSPECTOR
 // ==========================================
 function generateAdvancementJson(node) {
   const json = {};
 
-  // Display
   if (node.display) {
     json.display = {
       icon: {
@@ -1199,14 +1478,12 @@ function generateAdvancementJson(node) {
     }
   }
 
-  // Parent
   if (node.customParent) {
     json.parent = node.customParent;
   } else if (node.parent) {
     json.parent = `${state.namespace}:${node.parent}`;
   }
 
-  // Criteria
   json.criteria = {};
   node.criteria.forEach(crit => {
     json.criteria[crit.id] = {
@@ -1215,14 +1492,12 @@ function generateAdvancementJson(node) {
     };
   });
 
-  // Requirements matrix
   if (node.requirementsMode === "OR" && node.criteria.length > 1) {
     json.requirements = node.criteria.map(c => [c.id]);
   } else if (node.customRequirements && node.customRequirements.length > 0) {
     json.requirements = node.customRequirements;
   }
 
-  // Rewards
   if (node.rewards) {
     const rewards = {};
     if (node.rewards.experience > 0) rewards.experience = node.rewards.experience;
@@ -1235,17 +1510,18 @@ function generateAdvancementJson(node) {
     }
   }
 
+  if (node.sends_telemetry_event) {
+    json.sends_telemetry_event = true;
+  }
+
   return json;
 }
 
-// ==========================================
-// 13. JSON INSPECTOR & MODAL
-// ==========================================
 function openJsonModal() {
   const modal = document.getElementById('jsonPreviewModal');
   const codeViewer = document.getElementById('jsonCodeViewer');
   const node = state.advancements.find(a => a.id === state.selectedId) || state.advancements[0];
-  
+
   if (!node) {
     codeViewer.textContent = "No advancement selected.";
     return;
@@ -1268,22 +1544,15 @@ function copyJsonToClipboard() {
 }
 
 // ==========================================
-// 14. DATA PACK EXPORT (.ZIP)
+// 15. DATA PACK ZIP EXPORTER
 // ==========================================
-/**
- * Lightweight Zero-Dependency Client-Side Zip Encoder
- */
 class SimpleZip {
-  constructor() {
-    this.files = [];
-  }
-
-  addFile(filename, content) {
+  constructor() { this.files = []; }
+  addFile(name, content) {
     const encoder = new TextEncoder();
     const data = typeof content === 'string' ? encoder.encode(content) : content;
-    this.files.push({ name: filename, data: data });
+    this.files.push({ name, data });
   }
-
   generateBlob() {
     let localHeaders = [];
     let centralHeaders = [];
@@ -1294,47 +1563,44 @@ class SimpleZip {
       const crc = this.crc32(file.data);
       const size = file.data.length;
 
-      // Local file header (30 bytes + name length)
       const localHeader = new Uint8Array(30 + nameBytes.length);
       const view = new DataView(localHeader.buffer);
-      view.setUint32(0, 0x04034b50, true); // Local file header signature
-      view.setUint16(4, 20, true);         // Version needed
-      view.setUint16(6, 0, true);          // General purpose bit flag
-      view.setUint16(8, 0, true);          // Compression method (0 = uncompressed)
-      view.setUint16(10, 0, true);         // Mod time
-      view.setUint16(12, 0, true);         // Mod date
-      view.setUint32(14, crc, true);       // CRC32
-      view.setUint32(18, size, true);      // Compressed size
-      view.setUint32(22, size, true);      // Uncompressed size
-      view.setUint16(26, nameBytes.length, true); // Filename length
-      view.setUint16(28, 0, true);         // Extra field length
+      view.setUint32(0, 0x04034b50, true);
+      view.setUint16(4, 20, true);
+      view.setUint16(6, 0, true);
+      view.setUint16(8, 0, true);
+      view.setUint16(10, 0, true);
+      view.setUint16(12, 0, true);
+      view.setUint32(14, crc, true);
+      view.setUint32(18, size, true);
+      view.setUint32(22, size, true);
+      view.setUint16(26, nameBytes.length, true);
+      view.setUint16(28, 0, true);
       localHeader.set(nameBytes, 30);
 
-      // Central directory header (46 bytes + name length)
       const centralHeader = new Uint8Array(46 + nameBytes.length);
       const cView = new DataView(centralHeader.buffer);
-      cView.setUint32(0, 0x02014b50, true); // Central header signature
-      cView.setUint16(4, 20, true);         // Version made by
-      cView.setUint16(6, 20, true);         // Version needed
-      cView.setUint16(8, 0, true);          // Bit flag
-      cView.setUint16(10, 0, true);         // Compression method
-      cView.setUint16(12, 0, true);         // Mod time
-      cView.setUint16(14, 0, true);         // Mod date
-      cView.setUint32(16, crc, true);       // CRC32
-      cView.setUint32(20, size, true);      // Compressed size
-      cView.setUint32(24, size, true);      // Uncompressed size
+      cView.setUint32(0, 0x02014b50, true);
+      cView.setUint16(4, 20, true);
+      cView.setUint16(6, 20, true);
+      cView.setUint16(8, 0, true);
+      cView.setUint16(10, 0, true);
+      cView.setUint16(12, 0, true);
+      cView.setUint16(14, 0, true);
+      cView.setUint32(16, crc, true);
+      cView.setUint32(20, size, true);
+      cView.setUint32(24, size, true);
       cView.setUint16(28, nameBytes.length, true);
-      cView.setUint16(30, 0, true);         // Extra field length
-      cView.setUint16(32, 0, true);         // File comment length
-      cView.setUint16(34, 0, true);         // Disk number start
-      cView.setUint16(36, 0, true);         // Internal attributes
-      cView.setUint32(38, 0, true);         // External attributes
-      cView.setUint32(42, offset, true);    // Relative offset of local header
+      cView.setUint16(30, 0, true);
+      cView.setUint16(32, 0, true);
+      cView.setUint16(34, 0, true);
+      cView.setUint16(36, 0, true);
+      cView.setUint32(38, 0, true);
+      cView.setUint32(42, offset, true);
       centralHeader.set(nameBytes, 46);
 
       localHeaders.push(localHeader, file.data);
       centralHeaders.push(centralHeader);
-
       offset += localHeader.length + file.data.length;
     });
 
@@ -1342,7 +1608,6 @@ class SimpleZip {
     let centralDirSize = 0;
     centralHeaders.forEach(c => centralDirSize += c.length);
 
-    // End of central directory record (22 bytes)
     const eocd = new Uint8Array(22);
     const eView = new DataView(eocd.buffer);
     eView.setUint32(0, 0x06054b50, true);
@@ -1354,8 +1619,7 @@ class SimpleZip {
     eView.setUint32(16, centralDirOffset, true);
     eView.setUint16(20, 0, true);
 
-    const allParts = [...localHeaders, ...centralHeaders, eocd];
-    return new Blob(allParts, { type: 'application/zip' });
+    return new Blob([...localHeaders, ...centralHeaders, eocd], { type: 'application/zip' });
   }
 
   crc32(data) {
@@ -1383,20 +1647,17 @@ async function downloadDataPackZip() {
   const ns = (state.namespace || "custom").trim().toLowerCase().replace(/[^a-z0-9_.-]/g, '');
   const zip = new SimpleZip();
 
-  // pack.mcmeta
   const mcmeta = {
     pack: {
-      pack_format: 48, // Minecraft 1.21
-      description: "Custom Advancement Data Pack generated with BlockEngine"
+      pack_format: 48,
+      description: "Advancement Data Pack created with BlockEngine"
     }
   };
   zip.addFile("pack.mcmeta", JSON.stringify(mcmeta, null, 2));
 
-  // Each advancement JSON
   state.advancements.forEach(node => {
     const json = generateAdvancementJson(node);
-    const filePath = `data/${ns}/advancement/${node.id}.json`;
-    zip.addFile(filePath, JSON.stringify(json, null, 2));
+    zip.addFile(`data/${ns}/advancement/${node.id}.json`, JSON.stringify(json, null, 2));
   });
 
   const blob = zip.generateBlob();
@@ -1404,21 +1665,17 @@ async function downloadDataPackZip() {
   const a = document.createElement('a');
   a.href = url;
   a.download = `${ns}_datapack.zip`;
-  document.body.appendChild(a);
   a.click();
-  document.body.removeChild(a);
   URL.revokeObjectURL(url);
 
-  showToast(`📦 Data Pack "${ns}_datapack.zip" downloaded!`);
+  showToast(`📦 Downloaded "${ns}_datapack.zip"!`);
 }
 
-// ==========================================
-// 15. PROJECT SAVE & LOAD (.JSON)
-// ==========================================
 function saveProjectFile() {
   const project = {
-    version: "1.0",
+    version: "2.0",
     namespace: state.namespace,
+    background: state.currentBackground,
     advancements: state.advancements
   };
 
@@ -1428,8 +1685,8 @@ function saveProjectFile() {
   a.href = url;
   a.download = `advancement_tree_${state.namespace}.json`;
   a.click();
-  URL.revokeObjectURL(a.href);
-  showToast("💾 Project saved to JSON file!");
+  URL.revokeObjectURL(url);
+  showToast("💾 Project saved to JSON!");
 }
 
 function loadProjectFile(event) {
@@ -1443,71 +1700,34 @@ function loadProjectFile(event) {
       if (data.advancements && Array.isArray(data.advancements)) {
         state.namespace = data.namespace || "custom";
         state.advancements = data.advancements;
+        if (data.background) setCanvasBackground(data.background);
         state.selectedId = state.advancements.length > 0 ? state.advancements[0].id : null;
         renderAll();
         showToast("📂 Project loaded successfully!");
-      } else {
-        // Try importing as single vanilla JSON
-        importVanillaAdvancement(data, file.name.replace(".json", ""));
       }
     } catch (err) {
-      showToast("❌ Invalid JSON file format!");
-      console.error(err);
+      showToast("❌ Invalid JSON file!");
     }
   };
   reader.readAsText(file);
   event.target.value = "";
 }
 
-function importVanillaAdvancement(json, filename) {
-  const newId = filename || `imported_${Date.now()}`;
-  const criteriaList = [];
-
-  if (json.criteria) {
-    Object.keys(json.criteria).forEach(k => {
-      criteriaList.push({
-        id: k,
-        trigger: json.criteria[k].trigger || "minecraft:tick",
-        conditions: json.criteria[k].conditions || {}
-      });
-    });
+// ==========================================
+// 16. TOAST & UTILS
+// ==========================================
+function showToast(msg) {
+  let container = document.getElementById('toastWrap');
+  if (!container) {
+    container = document.createElement('div');
+    container.id = 'toastWrap';
+    container.className = 'toast-wrap';
+    document.body.appendChild(container);
   }
 
-  const newAdv = {
-    id: newId,
-    parent: json.parent ? json.parent.split(':').pop() : null,
-    x: 400,
-    y: 300,
-    display: {
-      title: json.display?.title?.text || json.display?.title || newId,
-      description: json.display?.description?.text || json.display?.description || "",
-      icon: json.display?.icon?.item || "minecraft:grass_block",
-      frame: json.display?.frame || "task",
-      show_toast: json.display?.show_toast !== false,
-      announce_to_chat: json.display?.announce_to_chat !== false,
-      hidden: !!json.display?.hidden,
-      background: json.display?.background || ""
-    },
-    criteria: criteriaList.length > 0 ? criteriaList : [{ id: "req_1", trigger: "minecraft:tick", conditions: {} }],
-    requirementsMode: (json.requirements && json.requirements.length > 1 && json.requirements[0].length === 1) ? "OR" : "AND",
-    customRequirements: json.requirements || [],
-    rewards: json.rewards || { experience: 0, recipes: [], function: "", loot: [] }
-  };
-
-  state.advancements.push(newAdv);
-  renderAll();
-  selectAdvancement(newId);
-  showToast(`📥 Imported vanilla advancement "${newAdv.display.title}"!`);
-}
-
-// ==========================================
-// 16. TOAST NOTIFICATIONS & UTILS
-// ==========================================
-function showToast(message) {
-  const container = document.getElementById('toastContainer') || createToastContainer();
   const toast = document.createElement('div');
-  toast.className = 'mc-toast';
-  toast.innerHTML = `<span>${escapeHtml(message)}</span>`;
+  toast.className = 'app-toast';
+  toast.innerHTML = `<span>${escapeHtml(msg)}</span>`;
   container.appendChild(toast);
 
   setTimeout(() => {
@@ -1515,15 +1735,7 @@ function showToast(message) {
     toast.style.transform = 'translateX(100%)';
     toast.style.transition = 'all 0.3s ease';
     setTimeout(() => toast.remove(), 300);
-  }, 3500);
-}
-
-function createToastContainer() {
-  const div = document.createElement('div');
-  div.id = 'toastContainer';
-  div.className = 'toast-container';
-  document.body.appendChild(div);
-  return div;
+  }, 3200);
 }
 
 function escapeHtml(str) {
@@ -1537,8 +1749,9 @@ function escapeHtml(str) {
 document.addEventListener('DOMContentLoaded', async () => {
   await loadItemsDatabase();
   state.advancements = JSON.parse(JSON.stringify(sampleAdvancements));
-  state.selectedId = state.advancements[0].id;
+  state.selectedId = "fancy_armor"; // Select the relic armor matching user's image!
 
+  setCanvasBackground(BACKGROUND_PRESETS.adventure);
   initCanvasEvents();
   initItemPickerEvents();
   updateCanvasTransform();

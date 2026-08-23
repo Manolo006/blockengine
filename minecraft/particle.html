@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Minecraft Particle Generator & 3D Visualizer - BlockEngine</title>
+  <link rel="stylesheet" href="../styles/home.css">
+  <link rel="stylesheet" href="../styles/particle.css">
+</head>
+<body>
+
+  <!-- Universal Navbar -->
+  <div id="navbar-container"></div>
+
+  <!-- Top Sticky Command Preview Bar -->
+  <div class="particle-top-bar">
+    <div class="command-preview-box">
+      <div class="command-code-text" id="commandCodeText">/particle minecraft:flame ~ ~1 ~ 0.2 0.2 0.2 0.05 10 normal @a</div>
+      <span class="status-badge" id="commandStatusBadge" style="background: #142d14; color: #55ff55; border-color: #2d6a2d;">
+        ✅ Comando Valido
+      </span>
+    </div>
+    <button type="button" class="action-btn btn-gold" onclick="copyParticleCommand()">
+      📋 Copia Comando
+    </button>
+    <button type="button" class="action-btn" onclick="exportParticleFunction()">
+      💾 Esporta .mcfunction
+    </button>
+  </div>
+
+  <!-- Main 3-Column Container -->
+  <div class="particle-main-container">
+
+    <!-- 1. Builder Form Panel (Left Column) -->
+    <div class="particle-builder-panel">
+
+      <!-- Particle Selection Card -->
+      <div class="particle-card">
+        <div class="particle-card-header">
+          <div class="particle-card-title">
+            <span class="tag">Particella</span>
+            <span>Tipo di Particella</span>
+          </div>
+        </div>
+
+        <div class="form-group" style="position: relative;" id="particleComboWrapper">
+          <label>Cerca Particella: <span class="sub-label">Scrivi per filtrare in tempo reale</span></label>
+          <div class="searchable-combobox-wrapper">
+            <input type="text"
+                   id="particleSearchInput"
+                   class="cmd-input"
+                   value="minecraft:flame"
+                   placeholder="Digita per cercare (es. flame, dust, sculk, gust)..."
+                   autocomplete="off"
+                   spellcheck="false"
+                   onfocus="openParticleCombobox(this)"
+                   oninput="onParticleComboboxInput(this)"
+                   onkeydown="onParticleComboboxKeydown(event, this)">
+            <button type="button" class="combobox-arrow-btn" onclick="toggleParticleCombobox(this.previousElementSibling)">▼</button>
+            <div class="searchable-dropdown-popup" id="particleComboboxPopup" style="display: none;"></div>
+          </div>
+        </div>
+
+        <div class="quick-btn-group">
+          <button type="button" class="quick-pill" onclick="setParticle('minecraft:flame')">🔥 Flame</button>
+          <button type="button" class="quick-pill" onclick="setParticle('minecraft:soul_fire_flame')">🔥 Soul Flame</button>
+          <button type="button" class="quick-pill" onclick="setParticle('minecraft:crit')">⚔️ Crit</button>
+          <button type="button" class="quick-pill" onclick="setParticle('minecraft:totem_of_undying')">✨ Totem</button>
+          <button type="button" class="quick-pill" onclick="setParticle('minecraft:dust')">🎨 Dust RGB</button>
+          <button type="button" class="quick-pill" onclick="setParticle('minecraft:dust_color_transition')">🌈 Transition</button>
+          <button type="button" class="quick-pill" onclick="setParticle('minecraft:electric_spark')">⚡ Spark</button>
+          <button type="button" class="quick-pill" onclick="setParticle('minecraft:gust')">🌀 Gust (1.21)</button>
+          <button type="button" class="quick-pill" onclick="setParticle('minecraft:cherry_leaves')">🌸 Cherry</button>
+        </div>
+      </div>
+
+      <!-- Dynamic Special Options Container (Dust RGB, Transitions, Blocks, Items) -->
+      <div id="specialOptionsContainer" style="display: none;"></div>
+
+      <!-- Position Coordinates Card -->
+      <div class="particle-card">
+        <div class="particle-card-header">
+          <div class="particle-card-title">
+            <span class="tag">Posizione</span>
+            <span>Coordinate di Generazione</span>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label>Coordinate Pos: <span class="sub-label">Relative (~), Assolute (100), Locali (^)</span></label>
+          <input type="text" id="input_pos" class="cmd-input" value="~ ~1 ~" placeholder="~ ~1 ~" oninput="updateParam('pos', this.value)">
+          <div class="quick-btn-group">
+            <button type="button" class="quick-pill" onclick="setQuickPreset('pos', '~ ~ ~')">~ ~ ~ (Piedi)</button>
+            <button type="button" class="quick-pill" onclick="setQuickPreset('pos', '~ ~1 ~')">~ ~1 ~ (Busto)</button>
+            <button type="button" class="quick-pill" onclick="setQuickPreset('pos', '~ ~1.8 ~')">~ ~1.8 ~ (Occhi)</button>
+            <button type="button" class="quick-pill" onclick="setQuickPreset('pos', '~ ~2.5 ~')">~ ~2.5 ~ (Aura Testa)</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Delta / Spread, Speed & Count Card -->
+      <div class="particle-card">
+        <div class="particle-card-header">
+          <div class="particle-card-title">
+            <span class="tag">Fisica</span>
+            <span>Delta, Velocità &amp; Quantità</span>
+          </div>
+        </div>
+
+        <div class="particle-form-grid">
+          <div class="form-group">
+            <label>Delta X (dx):</label>
+            <input type="text" id="input_dx" class="cmd-input" value="0.2" placeholder="0.2" oninput="updateParam('dx', this.value)">
+          </div>
+          <div class="form-group">
+            <label>Delta Y (dy):</label>
+            <input type="text" id="input_dy" class="cmd-input" value="0.2" placeholder="0.2" oninput="updateParam('dy', this.value)">
+          </div>
+          <div class="form-group">
+            <label>Delta Z (dz):</label>
+            <input type="text" id="input_dz" class="cmd-input" value="0.2" placeholder="0.2" oninput="updateParam('dz', this.value)">
+          </div>
+        </div>
+
+        <div class="quick-btn-group">
+          <button type="button" class="quick-pill" onclick="setQuickPreset('delta', '0 0 0')">0 0 0 (Punto)</button>
+          <button type="button" class="quick-pill" onclick="setQuickPreset('delta', '0.3 0.3 0.3')">0.3 0.3 0.3 (Aura)</button>
+          <button type="button" class="quick-pill" onclick="setQuickPreset('delta', '1 1 1')">1 1 1 (Cubo)</button>
+          <button type="button" class="quick-pill" onclick="setQuickPreset('delta', '2 0.1 2')">2 0.1 2 (Anello)</button>
+        </div>
+
+        <div class="particle-form-grid" style="margin-top: 6px;">
+          <div class="form-group">
+            <label>Velocità (Speed):</label>
+            <input type="text" id="input_speed" class="cmd-input" value="0.05" placeholder="0.05" oninput="updateParam('speed', this.value)">
+          </div>
+          <div class="form-group">
+            <label>Quantità (Count):</label>
+            <input type="number" min="0" max="1000" id="input_count" class="cmd-input" value="10" placeholder="10" oninput="updateParam('count', this.value)">
+          </div>
+        </div>
+
+        <div class="quick-btn-group">
+          <button type="button" class="quick-pill" onclick="setQuickPreset('count', '0')">Count = 0 (Direzionale)</button>
+          <button type="button" class="quick-pill" onclick="setQuickPreset('count', '1')">1</button>
+          <button type="button" class="quick-pill" onclick="setQuickPreset('count', '10')">10</button>
+          <button type="button" class="quick-pill" onclick="setQuickPreset('count', '50')">50 (Burst)</button>
+        </div>
+
+        <div class="mechanics-box" id="mechanicsExplanation"></div>
+      </div>
+
+      <!-- Visibility Mode & Viewers Card -->
+      <div class="particle-card">
+        <div class="particle-card-header">
+          <div class="particle-card-title">
+            <span class="tag">Opzioni</span>
+            <span>Mode &amp; Viewers</span>
+          </div>
+        </div>
+
+        <div class="particle-form-grid">
+          <div class="form-group">
+            <label>Modalità (Mode):</label>
+            <select class="cmd-select" onchange="updateParam('mode', this.value)">
+              <option value="normal" selected>normal (32 blocchi)</option>
+              <option value="force">force (512 blocchi)</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>Visualizzatori:</label>
+            <input type="text" class="cmd-input" value="@a" placeholder="@a" oninput="updateParam('viewers', this.value)">
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- 2. 3D Visualizer Viewport (Center Column) -->
+    <div class="particle-viewport-panel">
+
+      <!-- Viewport Floating Top Toolbar -->
+      <div class="viewport-floating-toolbar">
+        <div class="viewport-toolbar-group">
+          <button type="button" class="vp-btn active" id="btnPlayPause" onclick="togglePlayPause()">⏸️ Pausa</button>
+          <button type="button" class="vp-btn" onclick="triggerBurst()">⚡ Spawna Burst</button>
+          <button type="button" class="vp-btn active" id="btnContinuous" onclick="toggleContinuous()">🔄 Continuo</button>
+        </div>
+
+        <div class="viewport-toolbar-group">
+          <button type="button" class="vp-btn active" id="btnTogglePlayer" onclick="togglePlayer()">👤 Player</button>
+          <button type="button" class="vp-btn active" id="btnToggleGrid" onclick="toggleGrid()">📐 Griglia</button>
+          <button type="button" class="vp-btn" onclick="reset3DCamera()">🎯 Reset Vista</button>
+          <span class="vp-stat-badge" id="vpParticleCount">0 Attive</span>
+        </div>
+      </div>
+
+      <!-- Canvas Element -->
+      <canvas id="particle3DCanvas" class="viewport-canvas"></canvas>
+
+      <!-- Viewport Floating Bottom HUD -->
+      <div class="viewport-bottom-hud">
+        <div class="viewport-hint-box">
+          <span>🖱️ <strong>Click Sinistro + Trascina:</strong> Ruota Camera 3D</span>
+          <span>🖱️ <strong>Click Destro + Trascina:</strong> Sposta (Pan)</span>
+          <span>📜 <strong>Rotella:</strong> Zoom In / Out</span>
+          <span>🎯 <strong>Doppio Click:</strong> Centra</span>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- 3. Directory Sidebar (Right Column) -->
+    <div class="particle-sidebar">
+      <div class="sidebar-header">
+        <h3>📚 Libreria Particelle</h3>
+        <input type="text"
+               class="cmd-input sidebar-search-box"
+               placeholder="🔍 Cerca nell'elenco..."
+               oninput="renderSidebarList(this.value)">
+      </div>
+
+      <div class="sidebar-list" id="sidebarParticleList"></div>
+    </div>
+
+  </div>
+
+  <!-- Scripts -->
+  <script src="../script/navbar.js"></script>
+  <script src="../script/particle.js"></script>
+</body>
+</html>

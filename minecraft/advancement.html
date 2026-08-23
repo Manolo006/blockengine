@@ -3,137 +3,207 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Advancement Tree Generator - Minecraft Java Edition</title>
-  <link rel="stylesheet" href="./styles/advancement.css">
+  <title>Advancement Generator - Minecraft Java Edition</title>
+  <link rel="stylesheet" href="../styles/home.css">
+  <link rel="stylesheet" href="../styles/advancement.css">
 </head>
 <body>
   <!-- Global Navbar -->
   <div id="navbar-container"></div>
-  <script>
-    fetch('../navbar.html')
-      .then(response => response.text())
-      .then(data => {
-        document.getElementById('navbar-container').innerHTML = data;
-      })
-      .catch(error => console.error('Navbar load error:', error));
-  </script>
 
-  <!-- Application Main Container -->
-  <div class="app-container">
+  <!-- Main 2-Column Application Container -->
+  <div class="adv-app-layout">
 
-    <!-- CANVAS VIEWPORT (Interactive Pan & Zoom) -->
-    <div class="canvas-viewport" id="canvasViewport">
-      <!-- Background Tile Layer -->
-      <div class="canvas-bg-layer" id="canvasBgLayer"></div>
+    <!-- LEFT CANVAS VIEWPORT (Tree Visualizer & Pan/Zoom) -->
+    <div class="adv-canvas-container" id="advCanvasContainer">
+      <!-- Background Tileable Layer -->
+      <div class="adv-canvas-bg" id="advCanvasBg"></div>
 
-      <!-- Top Hint Bar -->
-      <div class="canvas-hint-bar">
-        <span>🖱️ <kbd>Drag</kbd> Pan Canvas</span>
-        <span>🔍 <kbd>Scroll</kbd> Zoom</span>
-        <span>✨ <kbd>Double Click</kbd> New Node</span>
-        <span>✋ <kbd>Drag Node</kbd> Reposition</span>
+      <!-- Top Background Customizer Bar -->
+      <div class="bg-customizer-bar">
+        <label>
+          <span>🖼️ Background:</span>
+          <select class="bg-select" id="bgPresetSelect" onchange="handlePresetBgChange(this.value)">
+            <option value="adventure" selected>Adventure (GUI)</option>
+            <option value="stone">Stone</option>
+            <option value="dirt">Dirt</option>
+            <option value="bedrock">Bedrock</option>
+            <option value="netherrack">Netherrack</option>
+            <option value="end_stone">End Stone</option>
+            <option value="deepslate">Deepslate</option>
+            <option value="oak_planks">Oak Planks</option>
+            <option value="dark_prismarine">Dark Prismarine</option>
+            <option value="crying_obsidian">Crying Obsidian</option>
+            <option value="custom_url">🎨 Custom URL / Upload File...</option>
+          </select>
+        </label>
+        <button class="bg-custom-btn" onclick="openCustomBgModal()">🎨 Custom Texture</button>
       </div>
 
-      <!-- Transformable Canvas Content -->
-      <div class="canvas-content" id="canvasContent">
+      <!-- Transformable Canvas Space -->
+      <div class="adv-canvas-space" id="advCanvasSpace">
         <!-- SVG Connections Layer -->
-        <svg class="connections-svg" id="connectionsSvg"></svg>
+        <svg class="adv-connections-svg" id="advConnectionsSvg"></svg>
 
-        <!-- Dynamic Nodes Layer -->
-        <div class="nodes-layer" id="nodesLayer"></div>
-      </div>
-
-      <!-- Canvas HUD Controls -->
-      <div class="canvas-hud">
-        <button class="hud-btn" onclick="zoomIn()" title="Zoom In">➕ Zoom In</button>
-        <button class="hud-btn" onclick="zoomOut()" title="Zoom Out">➖ Zoom Out</button>
-        <span class="hud-zoom-text" id="hudZoomText">100%</span>
-        <button class="hud-btn" onclick="resetView()" title="Reset View">🎯 Reset</button>
-        <button class="hud-btn" onclick="autoLayoutTree()" title="Auto-Layout Tree">🌳 Auto-Layout</button>
-        <button class="hud-btn" onclick="addRootAdvancement()" title="Add Root Questline">🌟 + New Root</button>
+        <!-- Advancement Nodes Layer -->
+        <div class="adv-nodes-layer" id="advNodesLayer"></div>
       </div>
     </div>
 
-    <!-- RIGHT SIDEBAR EDITOR (420px Fixed) -->
-    <div class="sidebar-editor">
-      <div class="sidebar-header">
-        <h2>🛠️ Advancement Editor</h2>
-        <div style="display: flex; gap: 6px;">
-          <button class="mc-btn btn-gold" onclick="openJsonModal()" title="View JSON code">📜 JSON</button>
+    <!-- RIGHT SIDEBAR (Misode / Vanilla Spec Editor) -->
+    <div class="misode-sidebar">
+
+      <!-- Top Large Icon Preview Box -->
+      <div class="sidebar-top-preview">
+        <div class="large-icon-card" id="largeIconCard" title="Click to pick Minecraft Item">
+          <img id="largeIconImg" class="large-icon-img" src="https://raw.githubusercontent.com/InventivetalentDev/minecraft-assets/26.2/assets/minecraft/textures/item/netherite_chestplate.png" alt="icon">
         </div>
+        <div class="large-icon-tooltip">⛏️ Click box to choose item icon</div>
       </div>
 
-      <!-- Scrollable Form Content -->
-      <div class="sidebar-scroll-area" id="sidebarContent">
-        <!-- Injected dynamically by JavaScript -->
+      <!-- Scrollable Form Area -->
+      <div class="sidebar-form-scroll" id="sidebarScrollArea">
+        <!-- Form rows and accordions dynamically rendered by advancement.js -->
       </div>
 
-      <!-- Bottom Action Bar -->
-      <div class="sidebar-footer">
-        <div class="footer-btn-grid">
-          <button class="mc-btn btn-primary" onclick="downloadDataPackZip()" title="Download full Data Pack with pack.mcmeta and advancement files">
-            📦 Export Data Pack (.ZIP)
+      <!-- Bottom Action Footer -->
+      <div class="misode-footer">
+        <div class="footer-btn-row">
+          <button class="action-btn btn-primary" onclick="downloadDataPackZip()" title="Download complete Data Pack as .ZIP">
+            📦 Export ZIP
           </button>
-          <button class="mc-btn" onclick="saveProjectFile()" title="Save whole tree project state to .json">
-            💾 Save Project
+          <button class="action-btn btn-gold" onclick="openJsonModal()" title="View full JSON">
+            📜 JSON View
           </button>
         </div>
-        <div class="footer-btn-grid">
-          <label class="mc-btn" style="text-align: center; cursor: pointer;">
-            📂 Load / Import JSON
+        <div class="footer-btn-row">
+          <button class="action-btn" onclick="saveProjectFile()" title="Save project to .json">
+            💾 Save
+          </button>
+          <label class="action-btn" style="cursor: pointer;">
+            📂 Load
             <input type="file" accept=".json" style="display: none;" onchange="loadProjectFile(event)">
           </label>
-          <button class="mc-btn btn-gold" onclick="openJsonModal()">
-            👁️ Live Inspector
-          </button>
         </div>
+        <button class="action-btn" onclick="deleteCurrentAdvancement()" style="color: #ff6b6b; border-color: #5c1d24; background: #261114;">
+          🗑️ Delete Advancement
+        </button>
       </div>
+
     </div>
 
   </div>
 
-  <!-- ITEM PICKER MODAL -->
-  <div class="modal-backdrop" id="itemPickerModal">
-    <div class="modal-window">
-      <div class="modal-header">
-        <h3>⛏️ Select Minecraft Item Icon</h3>
-        <button class="modal-close-btn" onclick="closeItemPickerModal()">✕</button>
+  <!-- CUSTOM BACKGROUND MODAL -->
+  <div class="modal-overlay" id="customBgModal">
+    <div class="modal-box" style="max-width: 540px;">
+      <div class="modal-head">
+        <h3>🎨 Custom Canvas Background Texture</h3>
+        <button class="modal-close" onclick="closeCustomBgModal()">✕</button>
       </div>
       <div class="modal-body">
-        <div class="item-search-bar">
-          <input type="text" id="itemSearchInput" class="gui-input" placeholder="🔍 Search item (e.g. diamond, sword, apple, elytra)...">
-        </div>
-        <div class="item-grid" id="itemGrid">
-          <!-- Item slots generated dynamically -->
+        <div style="display: flex; flex-direction: column; gap: 14px;">
+          <div>
+            <label style="font-size: 13px; font-weight: 600; color: #fff; margin-bottom: 6px; display: block;">1. Direct Image URL (CDN / Imgur / Minecraft Asset):</label>
+            <input type="text" id="customBgUrlInput" class="misode-input" style="width: 100%;" placeholder="https://.../texture.png">
+            <button class="action-btn btn-primary" style="margin-top: 8px; width: 100%;" onclick="applyCustomBgUrl()">Apply URL</button>
+          </div>
+          <hr style="border: 0; border-top: 1px solid var(--border-subtle);">
+          <div>
+            <label style="font-size: 13px; font-weight: 600; color: #fff; margin-bottom: 6px; display: block;">2. Upload Local Image File (PNG/JPG):</label>
+            <input type="file" accept="image/*" class="misode-input" style="width: 100%;" onchange="handleCustomBgFileUpload(event)">
+          </div>
         </div>
       </div>
-      <div class="modal-footer">
-        <button class="mc-btn" onclick="closeItemPickerModal()">Close</button>
+      <div class="modal-foot">
+        <button class="action-btn" onclick="closeCustomBgModal()">Close</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ITEM PICKER MODAL -->
+  <div class="modal-overlay" id="itemPickerModal">
+    <div class="modal-box">
+      <div class="modal-head">
+        <h3>⛏️ Select Minecraft Item Icon</h3>
+        <button class="modal-close" onclick="closeItemPickerModal()">✕</button>
+      </div>
+      <div class="modal-body">
+        <div style="margin-bottom: 10px;">
+          <input type="text" id="itemSearchInput" class="misode-input" style="width: 100%; font-size: 14px;" placeholder="🔍 Search Minecraft items (e.g. netherite, sword, apple, cauldron, bow)...">
+        </div>
+        <div style="display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 12px;" id="itemFilterPills">
+          <button class="action-btn btn-gold" style="padding: 4px 8px; font-size: 11px;" onclick="filterItemsCategory('')">All</button>
+          <button class="action-btn" style="padding: 4px 8px; font-size: 11px;" onclick="filterItemsCategory('sword')">⚔️ Combat</button>
+          <button class="action-btn" style="padding: 4px 8px; font-size: 11px;" onclick="filterItemsCategory('pickaxe')">⛏️ Tools</button>
+          <button class="action-btn" style="padding: 4px 8px; font-size: 11px;" onclick="filterItemsCategory('chestplate')">🛡️ Armor</button>
+          <button class="action-btn" style="padding: 4px 8px; font-size: 11px;" onclick="filterItemsCategory('apple')">🍎 Food</button>
+          <button class="action-btn" style="padding: 4px 8px; font-size: 11px;" onclick="filterItemsCategory('block')">🧱 Blocks</button>
+          <button class="action-btn" style="padding: 4px 8px; font-size: 11px;" onclick="filterItemsCategory('redstone')">⚡ Redstone</button>
+          <button class="action-btn" style="padding: 4px 8px; font-size: 11px;" onclick="filterItemsCategory('potion')">🧪 Potions</button>
+        </div>
+        <div class="item-picker-grid" id="itemGrid">
+          <!-- Item icons injected dynamically -->
+        </div>
+      </div>
+      <div class="modal-foot">
+        <button class="action-btn" onclick="closeItemPickerModal()">Close</button>
       </div>
     </div>
   </div>
 
   <!-- JSON PREVIEW MODAL -->
-  <div class="modal-backdrop" id="jsonPreviewModal">
-    <div class="modal-window" style="max-width: 760px;">
-      <div class="modal-header">
-        <h3>📜 Advancement JSON Inspector</h3>
-        <button class="modal-close-btn" onclick="closeJsonModal()">✕</button>
+  <div class="modal-overlay" id="jsonPreviewModal">
+    <div class="modal-box" style="max-width: 740px;">
+      <div class="modal-head">
+        <h3>📜 Advancement JSON Preview</h3>
+        <button class="modal-close" onclick="closeJsonModal()">✕</button>
       </div>
       <div class="modal-body">
-        <div class="code-viewer" id="jsonCodeViewer"></div>
+        <pre class="json-viewer-pre" id="jsonCodeViewer"></pre>
       </div>
-      <div class="modal-footer">
-        <button class="mc-btn btn-primary" onclick="copyJsonToClipboard()">📋 Copy JSON</button>
-        <button class="mc-btn" onclick="closeJsonModal()">Close</button>
+      <div class="modal-foot">
+        <button class="action-btn btn-primary" onclick="copyJsonToClipboard()">📋 Copy JSON</button>
+        <button class="action-btn" onclick="closeJsonModal()">Close</button>
       </div>
     </div>
   </div>
 
-  <!-- Toast Container -->
-  <div class="toast-container" id="toastContainer"></div>
+  <!-- Toast Notification Wrapper -->
+  <div class="toast-wrap" id="toastWrap"></div>
+
+  <!-- NODE CONTEXT MENU (Right Click) -->
+  <div class="node-context-menu" id="nodeContextMenu">
+    <div class="context-menu-item" onclick="contextMenuAction('child')">New Child</div>
+    <div class="context-menu-item" onclick="contextMenuAction('parent')">New Parent</div>
+    <div class="context-menu-divider"></div>
+    <div class="context-menu-item danger" onclick="contextMenuAction('delete')">Delete</div>
+  </div>
+
+  <!-- NEW PARENT / CHILD MODAL (MISODE SPEC) -->
+  <div class="node-action-modal-overlay" id="nodeActionModal">
+    <div class="node-action-card">
+      <div class="node-action-header">
+        <h4 id="actionModalTitle">New Parent Advancement</h4>
+        <button class="node-action-close" onclick="closeActionModal()">✕</button>
+      </div>
+      <div class="node-action-row">
+        <span class="node-action-label" id="actionModalLabelRef">Child Advancement</span>
+        <input type="text" id="actionModalInputRef" class="node-action-input" readonly>
+      </div>
+      <div class="node-action-row">
+        <span class="node-action-label">New Advancement</span>
+        <input type="text" id="actionModalInputNew" class="node-action-input" placeholder="namespace:advancement_id">
+      </div>
+      <div class="node-action-footer">
+        <button class="btn-modal-purple" id="actionModalSubmitBtn" onclick="submitActionModal()">Create Parent</button>
+        <button class="btn-modal-cancel" onclick="closeActionModal()">Cancel</button>
+      </div>
+    </div>
+  </div>
 
   <!-- Scripts -->
-  <script src="./script/advancement.js"></script>
+  <script src="../script/navbar.js"></script>
+  <script src="../script/advancement.js"></script>
 </body>
 </html>

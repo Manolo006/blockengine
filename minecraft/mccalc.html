@@ -1,28 +1,21 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <link rel="stylesheet" href="styles/McCalc.css">
+    <link rel="stylesheet" href="../styles/home.css">
+    <link rel="stylesheet" href="../styles/McCalc.css">
     <title>McCalc - Stack Converter</title>
 </head>
 <body>
 <div id="navbar-container"></div>
-<script>
-  fetch('../navbar.html')
-    .then(response => response.text())
-    .then(data => {
-      document.getElementById('navbar-container').innerHTML = data;
-    })
-    .catch(error => console.error('Errore:', error));
-</script>
 <div class="container">
     <div class="content">
-        <img src="./images/McCalcc.png" class="center" alt="McCalc Logo">
+        <img src="../images/McCalcc.png" class="center" alt="McCalc Logo">
         <form class="stackForm">
             <div id="radioImput">
                 <input type="radio" id="conversionType16" name="input" value="2" checked>
-                <label for="conversionType16"><img src="./images/16stack.png" id="stack16" alt="Stack 16"></label>
+                <label for="conversionType16"><img src="../images/16stack.png" id="stack16" alt="Stack 16"></label>
                 <input type="radio" id="conversionType64" name="input" value="1">
-                <label for="conversionType64"><img src="./images/64stack.png" id="stack64" alt="Stack 64"></label>
+                <label for="conversionType64"><img src="../images/64stack.png" id="stack64" alt="Stack 64"></label>
             </div>
             <input type="number" id="numberInput" placeholder="Inserisci il numero di item" required min="0" max="99999">
             <div class="inputbox">
@@ -37,7 +30,8 @@
     </div>
 </div>
 
-<script src="script/script.js"></script>
+<script src="../script/navbar.js"></script>
+<script src="../script/script.js"></script>
 <script>
     function toggleSidebar() {
         document.getElementById('sidebar').classList.toggle('active');

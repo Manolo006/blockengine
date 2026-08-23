@@ -1,32 +1,178 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="it">
 <head>
-    <link rel="stylesheet" href="styles/home.css">
-    <title>Manolo's Page</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>BlockEngine - Minecraft Java DataPack &amp; Command Suite</title>
+  <link rel="stylesheet" href="styles/home.css">
 </head>
 <body>
-<div id="navbar-container"></div>
-<script>
-  fetch('navbar.html')
-    .then(response => response.text())
-    .then(data => {
-      document.getElementById('navbar-container').innerHTML = data;
-    })
-    .catch(error => console.error('Errore:', error));
-</script>
-</div>
-<div class="container">
-    <div class="content">
-        <h1>Benvenuto!</h1>
-        <p>Questa è la tua homepage. Usa il menu per navigare tra le sezioni.</p>
-    </div>
-</div>
+  <!-- Global Dynamic Navbar -->
+  <div id="navbar-container"></div>
 
-<script>
-function toggleSidebar() {
-    const sidebar = document.getElementById('sidebar');
-    if (sidebar) sidebar.classList.toggle('sidebar-open');
-}
-</script>
+  <div class="hub-wrapper">
+
+    <!-- HERO SECTION -->
+    <div class="hub-hero">
+      <span class="hub-badge">⛏️ Minecraft Java 1.20 - 1.21+ Suite</span>
+      <h1>BlockEngine Studio</h1>
+      <p>Piattaforma avanzata di strumenti e generatori visivi per Data Pack, comandi e utility Minecraft Java Edition.</p>
+      <div class="hero-actions">
+        <a href="minecraft/advancement.html" class="hero-btn primary">
+          🌳 Advancement Generator
+        </a>
+        <a href="minecraft/execute.html" class="hero-btn secondary">
+          ⚡ Execute Command Builder
+        </a>
+      </div>
+    </div>
+
+    <!-- MAIN TOOLS SECTION -->
+    <h2 class="section-title">🛠️ Strumenti Principali</h2>
+    <div class="hub-grid">
+
+      <!-- ADVANCEMENTS -->
+      <a href="minecraft/advancement.html" class="hub-card">
+        <div>
+          <div class="hub-card-icon">🌳</div>
+          <h3>Advancement Tree Generator</h3>
+          <p>Crea alberi di avanzamenti visivi stile Vanilla Minecraft. 57 trigger ufficiali Java, texture personalizzabili ed export Data Pack in .ZIP.</p>
+        </div>
+        <div class="hub-card-tags">
+          <span class="hub-tag">DataPack</span>
+          <span class="hub-tag">Vanilla UI</span>
+          <span class="hub-tag">ZIP Export</span>
+        </div>
+      </a>
+
+      <!-- EXECUTE COMMAND BUILDER -->
+      <a href="minecraft/execute.html" class="hub-card">
+        <div>
+          <div class="hub-card-icon">⚡</div>
+          <h3>Execute Command Builder</h3>
+          <p>Costruttore a blocchi per comandi /execute complessi con supporto a store, coordinate, condizioni if/unless, NBT inspector ed export .mcfunction.</p>
+        </div>
+        <div class="hub-card-tags">
+          <span class="hub-tag">Comandi</span>
+          <span class="hub-tag">NBT Explorer</span>
+          <span class="hub-tag">.mcfunction</span>
+        </div>
+      </a>
+
+      <!-- MCCALC -->
+      <a href="minecraft/mccalc.html" class="hub-card">
+        <div>
+          <div class="hub-card-icon">📊</div>
+          <h3>McCalc - Stack Calculator</h3>
+          <p>Calcolatore istantaneo di stack da 64 e 16 oggetti, chest, double chest e shulker box per redstoner e builder.</p>
+        </div>
+        <div class="hub-card-tags">
+          <span class="hub-tag">Calcoli</span>
+          <span class="hub-tag">Redstone</span>
+        </div>
+      </a>
+
+      <!-- COLOR CODES -->
+      <a href="minecraft/color.html" class="hub-card">
+        <div>
+          <div class="hub-card-icon">🎨</div>
+          <h3>Minecraft Color Code Tool</h3>
+          <p>Tavolozza completa dei codici colore chat e MOTD (&amp; e §) con copia rapida negli appunti per server e datapack.</p>
+        </div>
+        <div class="hub-card-tags">
+          <span class="hub-tag">Chat &amp; MOTD</span>
+          <span class="hub-tag">Formattazione</span>
+        </div>
+      </a>
+
+      <!-- TELLRAW -->
+      <a href="minecraft/tellraw.html" class="hub-card">
+        <div>
+          <div class="hub-card-icon">📜</div>
+          <h3>Tellraw JSON Formatter</h3>
+          <p>Generatore di messaggi chat formattati JSON con colori, eventi di click (run_command, suggest_command) e hover testuali.</p>
+        </div>
+        <div class="hub-card-tags">
+          <span class="hub-tag">JSON Text</span>
+          <span class="hub-tag">Click / Hover</span>
+        </div>
+      </a>
+
+      <!-- ENCHANT -->
+      <a href="minecraft/enchant.html" class="hub-card">
+        <div>
+          <div class="hub-card-icon">⚔️</div>
+          <h3>Custom Enchantments Studio</h3>
+          <p>Crea armi, armature ed equipaggiamenti personalizzati con incantesimi avanzati fino al livello 255 e tag NBT.</p>
+        </div>
+        <div class="hub-card-tags">
+          <span class="hub-tag">NBT / Items</span>
+          <span class="hub-tag">Enchantments</span>
+        </div>
+      </a>
+
+    </div>
+
+    <!-- DATAPACK / PROJECTS SECTION -->
+    <h2 class="section-title">📦 Datapack &amp; Risorse Consigliate</h2>
+    <div class="hub-grid" style="margin-bottom: 40px;">
+
+      <div class="hub-card" style="cursor: default;">
+        <div>
+          <div class="hub-card-icon">🏹</div>
+          <h3>Team Generator Datapack</h3>
+          <p>Sistema automatico per generare e bilanciare team casuali con bordi colorati e scoreboard integrati per minigiochi e PvP.</p>
+        </div>
+        <div class="hub-card-tags">
+          <span class="hub-tag">PvP</span>
+          <span class="hub-tag">Minigames</span>
+        </div>
+      </div>
+
+      <div class="hub-card" style="cursor: default;">
+        <div>
+          <div class="hub-card-icon">💀</div>
+          <h3>UHC Ultra Hardcore System</h3>
+          <p>Regole personalizzate per match UHC: disattivazione rigenerazione naturale, teste d'oro craftabili e gestione del World Border.</p>
+        </div>
+        <div class="hub-card-tags">
+          <span class="hub-tag">Hardcore</span>
+          <span class="hub-tag">Survival</span>
+        </div>
+      </div>
+
+      <div class="hub-card" style="cursor: default;">
+        <div>
+          <div class="hub-card-icon">✨</div>
+          <h3>Sky Haste Resourcepack</h3>
+          <p>Texture pack ottimizzato con fiamme basse, indicatori visivi degli effetti di stato e GUI ad alto contrasto.</p>
+        </div>
+        <div class="hub-card-tags">
+          <span class="hub-tag">Texturepack</span>
+          <span class="hub-tag">GUI Clean</span>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- FEATURES SUMMARY BANNER -->
+    <div class="features-banner">
+      <div class="feature-item">
+        <h4>🚀 100% Client-Side</h4>
+        <p>Tutti i file e i calcoli vengono generati all'istante nel browser, senza upload esterni.</p>
+      </div>
+      <div class="feature-item">
+        <h4>📦 Vanilla Standard</h4>
+        <p>Compatibile con Minecraft Java Edition da 1.20 a 1.21+ e datapack standard.</p>
+      </div>
+      <div class="feature-item">
+        <h4>💾 Esportazione Diretta</h4>
+        <p>Scarica comandi in .mcfunction o interi Data Pack pronti all'uso in formato .zip.</p>
+      </div>
+    </div>
+
+  </div>
+
+  <script src="script/navbar.js"></script>
 </body>
 </html>

@@ -4,28 +4,49 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Execute Command Builder - Minecraft Java Edition</title>
-  <link rel="stylesheet" href="styles/execute.css">
+  <link rel="stylesheet" href="../styles/home.css">
+  <link rel="stylesheet" href="../styles/execute.css">
 </head>
 <body>
   <!-- Global Navbar -->
   <div id="navbar-container"></div>
-  <script>
-    fetch('../navbar.html')
-      .then(response => response.text())
-      .then(data => {
-        document.getElementById('navbar-container').innerHTML = data;
-      })
-      .catch(error => console.error('Navbar load error:', error));
-  </script>
 
-  <!-- 2-Column Main Layout -->
+  <!-- 2-Column Main Layout: Pipeline on Left, Library on Right -->
   <div class="execute-layout">
 
-    <!-- LEFT SIDEBAR (Subcommands Library) -->
+    <!-- MAIN PIPELINE & OUTPUT AREA (LEFT / CENTER) -->
+    <div class="main-pipeline-area">
+
+      <!-- TOP COMMAND BAR PREVIEW -->
+      <div class="top-command-bar">
+        <div class="command-bar-header">
+          <h3>⚡ Live /execute Command Preview</h3>
+          <div style="display: flex; gap: 8px; align-items: center; flex-wrap: wrap;">
+            <span class="command-status-badge" id="commandStatusBadge">✅ Valid /execute Command</span>
+            <button class="action-btn btn-gold" onclick="openImportModal()">📥 Reverse Engineer / Incolla</button>
+            <button class="action-btn btn-primary" onclick="copyCommand()">📋 Copy Command</button>
+            <button class="action-btn" onclick="exportMcFunction()">💾 Export .mcfunction</button>
+            <button class="action-btn" onclick="clearPipeline()" style="padding: 7px 10px; color: #ff6b6b; border-color: #5c1d24;" title="Clear All">🧹</button>
+          </div>
+        </div>
+
+        <div class="command-preview-box">
+          <div class="command-code-text" id="commandCodeText">/execute ...</div>
+        </div>
+      </div>
+
+      <!-- ACTIVE SUBCOMMAND CARDS PIPELINE (SCROLLABLE & SPACIOUS) -->
+      <div class="pipeline-scroll-area" id="pipelineContainer">
+        <!-- Injected dynamically by JavaScript -->
+      </div>
+
+    </div>
+
+    <!-- RIGHT SIDEBAR (Subcommands Library & Presets) -->
     <div class="library-sidebar">
       <div class="library-header">
         <h2>⚡ Subcommands</h2>
-        <button class="mc-btn btn-gold" onclick="openPresetsModal()" style="padding: 4px 8px; font-size: 11px;">
+        <button class="action-btn btn-gold" onclick="openPresetsModal()" style="padding: 4px 10px; font-size: 11px;">
           📚 Presets
         </button>
       </div>
@@ -33,9 +54,9 @@
       <div class="library-scroll-area">
 
         <!-- CONTEXT CATEGORY -->
-        <div class="accordion-category cat-context">
+        <div class="accordion-category cat-context open">
           <div class="accordion-header" onclick="toggleAccordion(this)">
-            <span>👥 Context</span>
+            <span><span class="arrow-icon">▶</span>👥 Context</span>
             <span class="cat-badge tag-context">5</span>
           </div>
           <div class="accordion-body">
@@ -63,9 +84,9 @@
         </div>
 
         <!-- POSITION & ROTATION CATEGORY -->
-        <div class="accordion-category cat-position">
+        <div class="accordion-category cat-position open">
           <div class="accordion-header" onclick="toggleAccordion(this)">
-            <span>📍 Position &amp; Rotation</span>
+            <span><span class="arrow-icon">▶</span>📍 Position &amp; Rotation</span>
             <span class="cat-badge tag-position">5</span>
           </div>
           <div class="accordion-body">
@@ -93,9 +114,9 @@
         </div>
 
         <!-- STORE CATEGORY -->
-        <div class="accordion-category cat-store">
+        <div class="accordion-category cat-store open">
           <div class="accordion-header" onclick="toggleAccordion(this)">
-            <span>💾 Store</span>
+            <span><span class="arrow-icon">▶</span>💾 Store</span>
             <span class="cat-badge tag-store">1</span>
           </div>
           <div class="accordion-body">
@@ -107,15 +128,19 @@
         </div>
 
         <!-- CONDITIONS (IF / UNLESS) CATEGORY -->
-        <div class="accordion-category cat-condition">
+        <div class="accordion-category cat-condition open">
           <div class="accordion-header" onclick="toggleAccordion(this)">
-            <span>❓ Conditions (if / unless)</span>
-            <span class="cat-badge tag-condition">8</span>
+            <span><span class="arrow-icon">▶</span>❓ Conditions (if / unless)</span>
+            <span class="cat-badge tag-condition">10</span>
           </div>
           <div class="accordion-body">
             <button class="subcmd-btn" onclick="addSubcommand('condition_block')">
               <code>if/unless block &lt;pos&gt; &lt;block&gt;</code>
               <span>Matches block ID/state at position</span>
+            </button>
+            <button class="subcmd-btn" onclick="addSubcommand('condition_blocks')">
+              <code>if/unless blocks &lt;start&gt; &lt;end&gt; &lt;dest&gt; (all|masked)</code>
+              <span>Compares a volume of blocks to destination</span>
             </button>
             <button class="subcmd-btn" onclick="addSubcommand('condition_entity')">
               <code>if/unless entity &lt;targets&gt;</code>
@@ -149,13 +174,17 @@
               <code>if/unless predicate &lt;pred&gt;</code>
               <span>Evaluates datapack predicate</span>
             </button>
+            <button class="subcmd-btn" onclick="addSubcommand('condition_function')">
+              <code>if/unless function &lt;function&gt; (1.20.2+)</code>
+              <span>Checks if function returns non-zero / success</span>
+            </button>
           </div>
         </div>
 
         <!-- EXECUTION CATEGORY -->
-        <div class="accordion-category cat-execution">
+        <div class="accordion-category cat-execution open">
           <div class="accordion-header" onclick="toggleAccordion(this)">
-            <span>🚀 Execution</span>
+            <span><span class="arrow-icon">▶</span>🚀 Execution</span>
             <span class="cat-badge tag-execution">1</span>
           </div>
           <div class="accordion-body">
@@ -169,41 +198,34 @@
         <!-- DATA GET QUICK REFERENCE -->
         <div class="accordion-category cat-dataget">
           <div class="accordion-header" onclick="openDataGetModal()">
-            <span style="color: #55ffff;">📖 /data get Dictionary</span>
-            <span class="cat-badge" style="background: #004455; color: #55ffff;">NBT</span>
+            <span><span class="arrow-icon">▶</span><span style="color: var(--color-orange);">📖 /data get Dictionary</span></span>
+            <span class="cat-badge" style="background: #2b2010; color: var(--color-orange);">NBT</span>
           </div>
         </div>
 
       </div>
     </div>
 
-    <!-- MAIN PIPELINE & OUTPUT AREA -->
-    <div class="main-pipeline-area">
+  </div>
 
-      <!-- TOP COMMAND BAR PREVIEW -->
-      <div class="top-command-bar">
-        <div class="command-bar-header">
-          <h3>⚡ Live /execute Command Preview</h3>
-          <div style="display: flex; gap: 10px; align-items: center;">
-            <span class="command-status-badge" id="commandStatusBadge">✅ Valid /execute Command</span>
-            <button class="mc-btn btn-primary" onclick="copyCommand()">📋 Copy Command</button>
-            <button class="mc-btn" onclick="exportMcFunction()">💾 Export .mcfunction</button>
-            <button class="mc-btn btn-danger" onclick="clearPipeline()" style="padding: 7px 10px;" title="Clear All">🧹</button>
-          </div>
-        </div>
-
-        <div class="command-preview-box">
-          <div class="command-code-text" id="commandCodeText">/execute ...</div>
-        </div>
+  <!-- REVERSE ENGINEERING / IMPORT COMMAND MODAL -->
+  <div class="modal-backdrop" id="importModal">
+    <div class="modal-window" style="max-width: 720px;">
+      <div class="modal-header">
+        <h3>📥 Reverse Engineer &amp; Import /execute Command</h3>
+        <button class="modal-close-btn" onclick="closeImportModal()">✕</button>
       </div>
-
-      <!-- ACTIVE SUBCOMMAND CARDS PIPELINE -->
-      <div class="pipeline-scroll-area" id="pipelineContainer">
-        <!-- Injected dynamically by JavaScript -->
+      <div class="modal-body">
+        <p style="color: #cccccc; font-size: 13px; margin-bottom: 12px; line-height: 1.5;">
+          Incolla un comando Minecraft <code>/execute</code> completo o parziale. BlockEngine eseguirà il <strong>Reverse Engineering</strong> istantaneo del comando, convertendo ogni sottocomando, condizione, NBT e selettore (con tutti i filtri: <code>type</code>, <code>distance</code>, <code>limit</code>, <code>tag</code>, <code>nbt</code>, ecc.) nei rispettivi box interattivi!
+        </p>
+        <textarea id="importCommandInput" class="cmd-input" style="width: 100%; height: 110px; font-family: 'Consolas', monospace; font-size: 13px; line-height: 1.4; resize: vertical;" placeholder="Es: execute as @e[type=creeper,limit=1,distance=..10] at @s if block ~ ~-1 ~ diamond_block run say 1"></textarea>
       </div>
-
+      <div class="modal-footer">
+        <button class="action-btn" onclick="closeImportModal()">Annulla</button>
+        <button class="action-btn btn-primary" onclick="submitImportCommand()">⚡ Converti in Box Interattivi</button>
+      </div>
     </div>
-
   </div>
 
   <!-- PRESETS MODAL -->
@@ -219,7 +241,7 @@
         </div>
       </div>
       <div class="modal-footer">
-        <button class="mc-btn" onclick="closePresetsModal()">Close</button>
+        <button class="action-btn" onclick="closePresetsModal()">Close</button>
       </div>
     </div>
   </div>
@@ -235,7 +257,7 @@
         <!-- Injected dynamically -->
       </div>
       <div class="modal-footer">
-        <button class="mc-btn" onclick="closeDataGetModal()">Close</button>
+        <button class="action-btn" onclick="closeDataGetModal()">Close</button>
       </div>
     </div>
   </div>
@@ -244,6 +266,7 @@
   <div class="toast-container" id="toastContainer"></div>
 
   <!-- Scripts -->
-  <script src="./script/execute.js"></script>
+  <script src="../script/navbar.js"></script>
+  <script src="../script/execute.js"></script>
 </body>
 </html>

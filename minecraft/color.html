@@ -1,20 +1,12 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <link rel="stylesheet" href="styles/color.css">
+    <link rel="stylesheet" href="../styles/home.css">
+    <link rel="stylesheet" href="../styles/color.css">
     <title>Color Code</title>
 </head>
 <body>
 <div id="navbar-container"></div>
-<script>
-  fetch('../navbar.html')
-    .then(response => response.text())
-    .then(data => {
-      document.getElementById('navbar-container').innerHTML = data;
-    })
-    .catch(error => console.error('Errore:', error));
-</script>
-</div>
 <div class="container">
     <div class="content">
         <table>
@@ -160,7 +152,8 @@
     </div>
 </div>
 
-<script src="./script/script.js"></script>
+<script src="../script/navbar.js"></script>
+<script src="../script/script.js"></script>
 <script>
 function toggleSidebar() {
     document.getElementById('sidebar').classList.toggle('active');
