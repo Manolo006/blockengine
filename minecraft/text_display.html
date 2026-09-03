@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Minecraft Text Display Generator - BlockEngine</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@south-paw/typeface-minecraft/index.css">
+  <link rel="stylesheet" href="../styles/home.css">
+  <link rel="stylesheet" href="../styles/text_display.css">
+</head>
+<body>
+
+  <!-- Universal Navbar -->
+  <div id="navbar-container"></div>
+
+  <!-- Top Sticky Command Preview Bar -->
+  <div class="td-top-bar">
+    <div class="td-command-box">
+      <div class="td-command-text" id="commandCodeText">/summon text_display ~ ~2 ~ {billboard:"center",line_width:200,default_background:1b,shadow:1b,see_through:0b,alignment:"center",Tags:["be_text_display"],transformation:{left_rotation:[0f,0f,0f,1f],right_rotation:[0f,0f,0f,1f],translation:[0f,0f,0f],scale:[1f,1f,1f]},text:[{"text":"★ BlockEngine Studio ★","color":"gold","bold":true},{"text":"Datapack & Command Suite","color":"gold","bold":true}]}</div>
+      <span class="td-status-badge" id="commandStatusBadge">
+        ✅ Comando Valido 1.21+
+      </span>
+    </div>
+    <button type="button" class="td-action-btn td-btn-gold" onclick="copyTextDisplayCommand()" aria-label="Copia comando negli appunti">
+      📋 Copia Comando
+    </button>
+    <button type="button" class="td-action-btn" onclick="exportTextDisplayFunction()" aria-label="Esporta file .mcfunction">
+      💾 Esporta .mcfunction
+    </button>
+  </div>
+
+  <!-- Main 2-Column Container -->
+  <div class="td-main-container">
+
+    <!-- 1. Builder Form Panel (Left Column) -->
+    <div class="td-builder-panel">
+
+      <!-- Card 1: Text Content & Styling -->
+      <div class="td-card">
+        <div class="td-card-header">
+          <div class="td-card-title">
+            <span class="td-tag">Testo</span>
+            <span>Contenuto &amp; Colore</span>
+          </div>
+        </div>
+
+        <div class="td-form-group">
+          <label class="td-label" for="td_input_text">Testo da Visualizzare: <span class="td-sub-label">(Supporta a capo \n)</span></label>
+          <textarea id="td_input_text" class="td-textarea" rows="2" spellcheck="false">★ BlockEngine Studio ★
+Datapack &amp; Command Suite</textarea>
+        </div>
+
+        <div class="td-form-group">
+          <label class="td-label" for="td_color_select">Colore del Testo:</label>
+          <div class="td-color-row">
+            <div class="td-color-preview" id="td_color_preview" style="background-color: #FFAA00;"></div>
+            <select id="td_color_select" class="td-select">
+              <option value="white">white (Bianco)</option>
+              <option value="gold" selected>gold (Oro Vanilla)</option>
+              <option value="yellow">yellow (Giallo)</option>
+              <option value="green">green (Verde Chiaro)</option>
+              <option value="dark_green">dark_green (Verde Scuro)</option>
+              <option value="aqua">aqua (Aqua Chiaro)</option>
+              <option value="dark_aqua">dark_aqua (Aqua Scuro)</option>
+              <option value="blue">blue (Blu Chiaro)</option>
+              <option value="dark_blue">dark_blue (Blu Scuro)</option>
+              <option value="light_purple">light_purple (Magenta)</option>
+              <option value="dark_purple">dark_purple (Viola)</option>
+              <option value="red">red (Rosso)</option>
+              <option value="dark_red">dark_red (Rosso Scuro)</option>
+              <option value="gray">gray (Grigio Chiaro)</option>
+              <option value="dark_gray">dark_gray (Grigio Scuro)</option>
+              <option value="black">black (Nero)</option>
+              <option value="custom">🎨 Codice Hex Personalizzato...</option>
+            </select>
+            <input type="text" id="td_custom_hex" class="td-input" value="#FFAA00" style="display:none; width: 100px;" placeholder="#RRGGBB">
+          </div>
+        </div>
+
+        <div class="td-form-group">
+          <label class="td-label">Formattazione &amp; Stili Vanilla:</label>
+          <div class="td-toggle-grid">
+            <div class="td-toggle-btn active" id="td_toggle_bold" role="button" tabindex="0"><b>B</b> Bold</div>
+            <div class="td-toggle-btn" id="td_toggle_italic" role="button" tabindex="0"><i>I</i> Italic</div>
+            <div class="td-toggle-btn" id="td_toggle_underline" role="button" tabindex="0"><u>U</u> Underline</div>
+            <div class="td-toggle-btn" id="td_toggle_strike" role="button" tabindex="0"><s>S</s> Strike</div>
+            <div class="td-toggle-btn" id="td_toggle_obf" role="button" tabindex="0">✱ Obfuscate</div>
+          </div>
+        </div>
+
+        <!-- Symbol Picker Section -->
+        <div class="td-symbol-section">
+          <div class="td-label" style="display:flex; justify-content:space-between; align-items:center;">
+            <span>Simboli Unicode Minecraft-Safe:</span>
+            <span style="color:var(--color-green); font-size:10px; font-weight:bold;">✔ 100% Vanilla Font</span>
+          </div>
+          <div class="td-symbol-tabs" id="td_symbol_tabs">
+            <button type="button" class="td-sym-tab active" data-cat="popular">★ Popolari</button>
+            <button type="button" class="td-sym-tab" data-cat="arrows">→ Frecce</button>
+            <button type="button" class="td-sym-tab" data-cat="shapes">■ Forme</button>
+            <button type="button" class="td-sym-tab" data-cat="pvp">⚔ Icone &amp; PvP</button>
+            <button type="button" class="td-sym-tab" data-cat="runes">ᚠ Rune &amp; ①</button>
+            <button type="button" class="td-sym-tab" data-cat="box">─ Cornici</button>
+          </div>
+          <div class="td-sym-grid" id="td_symbol_grid"></div>
+        </div>
+
+        <!-- Emoji Warning Banner -->
+        <div class="td-emoji-warn" id="td_emoji_warn" style="display:none;">
+          <div class="td-emoji-warn-icon">⚠️</div>
+          <div>
+            <b>Emoji moderne rilevate!</b> Minecraft vanilla non supporta emoji standard Unicode (es. 🐉, 🗑️, 😂). Nel gioco appariranno come caratteri mancanti <code>□</code> a meno di non usare un resource pack custom.
+            <div class="td-emoji-list" id="td_emoji_list"></div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Card 2: Display & Visibility Properties -->
+      <div class="td-card">
+        <div class="td-card-header">
+          <div class="td-card-title">
+            <span class="td-tag">Display</span>
+            <span>Orientamento &amp; Visibilità</span>
+          </div>
+        </div>
+
+        <div class="td-form-group">
+          <label class="td-label">Billboard (Rotazione verso il Giocatore):</label>
+          <div class="td-quick-group" id="td_billboard_group">
+            <button type="button" class="td-pill active" data-val="center">center (Sguardo Completo)</button>
+            <button type="button" class="td-pill" data-val="vertical">vertical (Solo Asse Y)</button>
+            <button type="button" class="td-pill" data-val="horizontal">horizontal (Solo Asse X)</button>
+            <button type="button" class="td-pill" data-val="fixed">fixed (Fisso nel Mondo)</button>
+          </div>
+        </div>
+
+        <div class="td-form-group">
+          <label class="td-label">Allineamento Testo (alignment):</label>
+          <div class="td-quick-group" id="td_align_group">
+            <button type="button" class="td-pill active" data-val="center">center</button>
+            <button type="button" class="td-pill" data-val="left">left (Sinistra)</button>
+            <button type="button" class="td-pill" data-val="right">right (Destra)</button>
+          </div>
+        </div>
+
+        <div class="td-grid-2">
+          <div class="td-form-group">
+            <label class="td-label" for="td_line_width">Line Width (Max larghezza pixel):</label>
+            <input type="number" id="td_line_width" class="td-input" value="200" min="10" max="4000">
+          </div>
+          <div class="td-form-group">
+            <label class="td-label" for="td_view_range">View Range (Distanza rendering):</label>
+            <input type="number" id="td_view_range" class="td-input" value="1.0" step="0.1" min="0.1" max="10.0">
+          </div>
+        </div>
+
+        <div class="td-toggle-grid" style="margin-top: 8px;">
+          <div class="td-toggle-btn active" id="td_toggle_shadow" role="button" tabindex="0">Ombra (shadow:1b)</div>
+          <div class="td-toggle-btn" id="td_toggle_see_through" role="button" tabindex="0">Raggi X (see_through)</div>
+          <div class="td-toggle-btn active" id="td_toggle_def_bg" role="button" tabindex="0">Sfondo Vanilla</div>
+        </div>
+
+        <!-- Custom Background Controls -->
+        <div id="td_custom_bg_group" class="td-form-group" style="display:none; margin-top:12px;">
+          <label class="td-label">Colore Sfondo Personalizzato (ARGB):</label>
+          <div class="td-grid-2">
+            <div style="display:flex; align-items:center; gap:6px;">
+              <input type="color" id="td_bg_color_picker" value="#000000" style="width:36px; height:36px; background:transparent; border:none; cursor:pointer;">
+              <span class="td-sub-label">Colore RGB</span>
+            </div>
+            <div>
+              <label class="td-sub-label" for="td_bg_alpha_input">Opacità Alpha (0-255):</label>
+              <input type="number" id="td_bg_alpha_input" class="td-input" value="100" min="0" max="255">
+            </div>
+          </div>
+          <div style="font-size:11px; color:var(--text-dim); margin-top:4px;">
+            Valore ARGB generato: <code id="td_bg_argb_display">-2130706433</code>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Card 3: 3D Transformations -->
+      <div class="td-card">
+        <div class="td-card-header">
+          <div class="td-card-title">
+            <span class="td-tag">3D Matrix</span>
+            <span>Trasformazioni (Scale, Offset, Rotazione)</span>
+          </div>
+        </div>
+
+        <div class="td-form-group">
+          <label class="td-label">Scala Dimensioni (scale [X, Y, Z]):</label>
+          <div class="td-grid-3">
+            <div class="td-coord-item"><span>X</span><input type="number" id="td_scale_x" class="td-input" value="1.0" step="0.1" min="0.01"></div>
+            <div class="td-coord-item"><span>Y</span><input type="number" id="td_scale_y" class="td-input" value="1.0" step="0.1" min="0.01"></div>
+            <div class="td-coord-item"><span>Z</span><input type="number" id="td_scale_z" class="td-input" value="1.0" step="0.1" min="0.01"></div>
+          </div>
+          <div class="td-quick-group">
+            <button type="button" class="td-pill" onclick="setScale(0.5)">0.5x (Piccolo)</button>
+            <button type="button" class="td-pill active" onclick="setScale(1.0)">1.0x (Standard)</button>
+            <button type="button" class="td-pill" onclick="setScale(1.5)">1.5x (Medio)</button>
+            <button type="button" class="td-pill" onclick="setScale(2.5)">2.5x (Titolo Grande)</button>
+            <button type="button" class="td-pill" onclick="setScale(4.0)">4.0x (Gigante)</button>
+          </div>
+        </div>
+
+        <div class="td-form-group">
+          <label class="td-label">Offset Spaziale (translation [X, Y, Z]):</label>
+          <div class="td-grid-3">
+            <div class="td-coord-item"><span>X</span><input type="number" id="td_trans_x" class="td-input" value="0.0" step="0.1"></div>
+            <div class="td-coord-item"><span>Y</span><input type="number" id="td_trans_y" class="td-input" value="0.0" step="0.1"></div>
+            <div class="td-coord-item"><span>Z</span><input type="number" id="td_trans_z" class="td-input" value="0.0" step="0.1"></div>
+          </div>
+        </div>
+
+        <div class="td-form-group">
+          <label class="td-label">Rotazione Euleriana (Angoli Gradi &rarr; Quaternione Left Rotation):</label>
+          <div class="td-grid-3">
+            <div class="td-coord-item"><span>Yaw (Y)</span><input type="number" id="td_rot_yaw" class="td-input" value="0" step="15"></div>
+            <div class="td-coord-item"><span>Pitch (X)</span><input type="number" id="td_rot_pitch" class="td-input" value="0" step="15"></div>
+            <div class="td-coord-item"><span>Roll (Z)</span><input type="number" id="td_rot_roll" class="td-input" value="0" step="15"></div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Card 4: Animation & Interpolation -->
+      <div class="td-card">
+        <div class="td-card-header">
+          <div class="td-card-title">
+            <span class="td-tag">Animazione</span>
+            <span>Interpolazione &amp; Smooth Motion</span>
+          </div>
+        </div>
+
+        <div class="td-grid-2">
+          <div class="td-form-group">
+            <label class="td-label" for="td_interp_dur">Durata Transizione (ticks):</label>
+            <input type="number" id="td_interp_dur" class="td-input" value="0" min="0" placeholder="0 = istantaneo">
+          </div>
+          <div class="td-form-group">
+            <label class="td-label" for="td_interp_start">Avvio (start_interpolation):</label>
+            <input type="number" id="td_interp_start" class="td-input" value="0" min="-1" placeholder="0">
+          </div>
+        </div>
+      </div>
+
+      <!-- Card 5: Position Coordinates & Tags -->
+      <div class="td-card">
+        <div class="td-card-header">
+          <div class="td-card-title">
+            <span class="td-tag">Spawn</span>
+            <span>Coordinate &amp; Tag Entità</span>
+          </div>
+        </div>
+
+        <div class="td-form-group">
+          <label class="td-label">Coordinate di Generazione (~ ^ o assolute):</label>
+          <div class="td-grid-3">
+            <div class="td-coord-item"><span>X</span><input type="text" id="td_pos_x" class="td-input" value="~" spellcheck="false"></div>
+            <div class="td-coord-item"><span>Y</span><input type="text" id="td_pos_y" class="td-input" value="~2" spellcheck="false"></div>
+            <div class="td-coord-item"><span>Z</span><input type="text" id="td_pos_z" class="td-input" value="~" spellcheck="false"></div>
+          </div>
+          <div class="td-quick-group">
+            <button type="button" class="td-pill" onclick="setQuickCoord('~', '~', '~')">~ ~ ~ (Piedi)</button>
+            <button type="button" class="td-pill" onclick="setQuickCoord('~', '~1', '~')">~ ~1 ~ (Busto)</button>
+            <button type="button" class="td-pill active" onclick="setQuickCoord('~', '~2', '~')">~ ~2 ~ (Sopra Testa)</button>
+            <button type="button" class="td-pill" onclick="setQuickCoord('^', '^1', '^3')">^ ^1 ^3 (Davanti Vista)</button>
+          </div>
+        </div>
+
+        <div class="td-form-group">
+          <label class="td-label" for="td_tags_input">Tags Entità (Separati da virgola):</label>
+          <input type="text" id="td_tags_input" class="td-input" value="be_text_display" placeholder="be_text_display, floating_npc">
+        </div>
+      </div>
+
+    </div>
+
+    <!-- 2. Live Preview Panel (Right Column) -->
+    <div class="td-preview-panel">
+
+      <div class="td-preview-toolbar">
+        <div class="td-preview-title">
+          <span>🖥️ Anteprima Visiva Text Display</span>
+        </div>
+        <div class="td-bg-switchers">
+          <button type="button" class="td-bg-btn active" data-bg="dark">Dark Grid</button>
+          <button type="button" class="td-bg-btn" data-bg="grid">Isometric Grid</button>
+          <button type="button" class="td-bg-btn" data-bg="void">Void Black</button>
+        </div>
+      </div>
+
+      <!-- Viewport Rendering Canvas/Box -->
+      <div class="td-viewport td-vp-dark" id="td_viewport">
+        <div class="td-entity-render-box" id="td_render_box">★ BlockEngine Studio ★</div>
+      </div>
+
+      <!-- Presets Footer Bar -->
+      <div class="td-presets-footer">
+        <span class="td-preset-label">⚡ Preset Rapidi:</span>
+        <button type="button" class="td-preset-btn" onclick="loadPreset('title')">🏆 Titolo Vittoria</button>
+        <button type="button" class="td-preset-btn" onclick="loadPreset('npc')">⚔ Nome NPC / Shop</button>
+        <button type="button" class="td-preset-btn" onclick="loadPreset('warning')">⚠️ Cartello Pericolo</button>
+        <button type="button" class="td-preset-btn" onclick="loadPreset('leaderboard')">📊 Leaderboard Top</button>
+        <button type="button" class="td-preset-btn" onclick="loadPreset('stats')">📜 Statistiche RPG</button>
+      </div>
+
+    </div>
+
+  </div>
+
+  <script src="../script/navbar.js"></script>
+  <script src="../script/text_display.js"></script>
+  <script>
+    function setScale(val) {
+      document.getElementById('td_scale_x').value = val;
+      document.getElementById('td_scale_y').value = val;
+      document.getElementById('td_scale_z').value = val;
+      document.getElementById('td_scale_x').dispatchEvent(new Event('input'));
+      document.getElementById('td_scale_y').dispatchEvent(new Event('input'));
+      document.getElementById('td_scale_z').dispatchEvent(new Event('input'));
+    }
+  </script>
+</body>
+</html>

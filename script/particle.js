@@ -89,7 +89,7 @@ const MINECRAFT_PARTICLES = [
   { id: "minecraft:small_flame", name: "Small Flame", group: "🔥 Fire & Energy", desc: "Tiny candle flame", type: "standard", baseSize: 0.12 },
   { id: "minecraft:electric_spark", name: "Electric Spark", group: "🔥 Fire & Energy", desc: "Lightning rod / copper electric spark", type: "standard", baseSize: 0.16 },
   { id: "minecraft:firework", name: "Firework Spark", group: "🔥 Fire & Energy", desc: "Spark trailing behind fireworks", type: "standard", baseSize: 0.16 },
-  { id: "minecraft:flash", name: "Flash", group: "🔥 Fire & Energy", desc: "Bright white full-screen flash explosion", type: "standard", baseSize: 0.5 },
+  { id: "minecraft:flash", name: "Flash (1.20.5+ Color)", group: "🔥 Fire & Energy", desc: "Bright explosion flash with custom RGBA color", type: "flash", baseSize: 0.5 },
   { id: "minecraft:end_rod", name: "End Rod", group: "🔥 Fire & Energy", desc: "White glow particles falling from end rod", type: "standard", baseSize: 0.15 },
   { id: "minecraft:glow", name: "Glow", group: "🔥 Fire & Energy", desc: "Glowing ink / glow berries ambient aura", type: "standard", baseSize: 0.18 },
   { id: "minecraft:lava", name: "Lava Spark", group: "🔥 Fire & Energy", desc: "Lava pop and leaping orange spark", type: "standard", baseSize: 0.16 },
@@ -277,7 +277,9 @@ let currentParticleConfig = {
   blockId: "minecraft:stone",
   itemId: "minecraft:diamond",
   sculkRoll: "0.0",
-  shriekDelay: "0"
+  shriekDelay: "0",
+  flashColor: "#ffffff",
+  flashAlpha: "1.00"
 };
 
 // Simulation settings (Calibrated 20 TPS Engine at 1.35x)
@@ -419,6 +421,10 @@ class SimulatedParticle {
       this.toColor = hexToRgb(config.dustToColor || "#00ffff");
       const scale = Math.max(0.1, Math.min(4.0, parseFloat(config.dustScale || "1.0") || 1.0));
       this.baseWorldSize *= scale;
+    } else if (config.particleId === "minecraft:flash") {
+      this.flashColor = config.flashColor || "#ffffff";
+      const rawAlpha = parseFloat(config.flashAlpha !== undefined ? config.flashAlpha : "1.0");
+      this.flashAlpha = Math.min(1.0, Math.max(0.0, isNaN(rawAlpha) ? 1.0 : rawAlpha));
     }
   }
 
@@ -477,6 +483,8 @@ class SimulatedParticle {
       const b = Math.round(this.fromColor.b + (this.toColor.b - this.fromColor.b) * p);
       const hex = `#${((1 << 24) + (r << 16) + (g << 8) + b).toString(16).slice(1)}`;
       return getTintedTexture(rawImg, hex);
+    } else if (this.id === "minecraft:flash") {
+      return getTintedTexture(rawImg, this.flashColor || "#ffffff");
     }
 
     return rawImg;
@@ -879,6 +887,14 @@ function buildParticleIdString() {
   } else if (def && def.type === "shriek") {
     const delay = parseInt(currentParticleConfig.shriekDelay || "0", 10) || 0;
     return `minecraft:shriek{delay:${delay}}`;
+  } else if (def && def.type === "flash") {
+    const rgb = hexToRgb(currentParticleConfig.flashColor || "#ffffff");
+    const r = (rgb.r / 255).toFixed(3);
+    const g = (rgb.g / 255).toFixed(3);
+    const b = (rgb.b / 255).toFixed(3);
+    const rawAlpha = parseFloat(currentParticleConfig.flashAlpha !== undefined ? currentParticleConfig.flashAlpha : "1.0");
+    const alpha = (Math.min(1.0, Math.max(0.0, isNaN(rawAlpha) ? 1.0 : rawAlpha))).toFixed(2);
+    return `minecraft:flash{color:[${r},${g},${b},${alpha}]}`;
   }
 
   return baseId;
@@ -1319,6 +1335,36 @@ function renderExtraOptions() {
         </div>
       </div>
     `;
+  } else if (def.type === "flash") {
+    container.innerHTML = `
+      <div class="particle-card" style="border-color: #ffd900;">
+        <div class="particle-card-header">
+          <div class="particle-card-title">
+            <span class="tag">⚡ 1.20.5+ Flash Color & Alpha</span>
+            <span>Colore RGBA Esplosione Flash</span>
+          </div>
+        </div>
+        <div class="particle-form-grid">
+          <div class="form-group">
+            <label>Colore Flash (RGB):</label>
+            <div style="display: flex; gap: 6px; align-items: center;">
+              <input type="color" style="width: 36px; height: 30px; background: transparent; border: 1px solid var(--border-medium); border-radius: 4px; cursor: pointer;"
+                     value="${currentParticleConfig.flashColor || '#ffffff'}"
+                     oninput="updateParam('flashColor', this.value); this.nextElementSibling.value = this.value;">
+              <input type="text" class="cmd-input" style="flex: 1;"
+                     value="${currentParticleConfig.flashColor || '#ffffff'}"
+                     oninput="updateParam('flashColor', this.value); this.previousElementSibling.value = this.value;">
+            </div>
+          </div>
+          <div class="form-group">
+            <label>Trasparenza / Alpha (0.00 - 1.00):</label>
+            <input type="number" step="0.05" min="0.0" max="1.0" class="cmd-input"
+                   value="${currentParticleConfig.flashAlpha !== undefined ? currentParticleConfig.flashAlpha : '1.00'}"
+                   oninput="updateParam('flashAlpha', Math.min(1.0, Math.max(0.0, parseFloat(this.value) || 1.0)).toFixed(2))">
+          </div>
+        </div>
+      </div>
+    `;
   }
 }
 
@@ -1388,12 +1434,13 @@ function copyParticleCommand() {
 
 function exportParticleFunction() {
   const cmd = compileParticleCommand();
-  const blob = new Blob([`# Generated by BlockEngine Particle Builder\n${cmd}\n`], { type: 'text/plain;charset=utf-8' });
+  const cleanCmd = cmd.replace(/^\/+/, '');
+  const blob = new Blob([`# Generated by BlockEngine Particle Builder\n${cleanCmd}\n`], { type: 'text/plain;charset=utf-8' });
   const a = document.createElement('a');
   a.href = URL.createObjectURL(blob);
   a.download = 'particle_fx.mcfunction';
   a.click();
-  showToast("💾 Esportato 'particle_fx.mcfunction'!");
+  showToast("💾 Esportato 'particle_fx.mcfunction' senza slash iniziale!");
 }
 
 function showToast(message) {

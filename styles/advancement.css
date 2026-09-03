@@ -109,10 +109,10 @@ body {
 /* SVG Connection Lines */
 .adv-connections-svg {
   position: absolute;
-  top: -8000px;
-  left: -8000px;
-  width: 20000px;
-  height: 20000px;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
   pointer-events: none;
   z-index: 5;
   overflow: visible;
@@ -147,7 +147,7 @@ body {
   z-index: 10;
 }
 
-/* ================= ADVANCEMENT NODE (AUTO-LAYOUT, NO MANUAL DRAG) ================= */
+/* ================= ADVANCEMENT NODE (DRAGGABLE & SELECTABLE) ================= */
 .misode-node {
   position: absolute;
   width: 52px;
@@ -155,8 +155,14 @@ body {
   transform: translate(-50%, -50%);
   cursor: pointer;
   z-index: 10;
-  transition: transform 0.15s ease, filter 0.15s ease, left 0.25s ease, top 0.25s ease;
+  transition: transform 0.15s ease, filter 0.15s ease, left 0.2s ease, top 0.2s ease;
   user-select: none;
+}
+
+.misode-node.dragging {
+  transition: none !important;
+  cursor: grabbing !important;
+  z-index: 100 !important;
 }
 
 .misode-node:hover {
@@ -225,6 +231,12 @@ body {
   filter: drop-shadow(2px 2px 0 rgba(0,0,0,0.5));
 }
 
+.node-empty-icon {
+  width: 32px;
+  height: 32px;
+  pointer-events: none;
+}
+
 /* Root Badge */
 .node-root-badge {
   position: absolute;
@@ -241,11 +253,84 @@ body {
   z-index: 15;
 }
 
+/* Top Header Bar: Folder Tabs & Background */
+.folder-tabs-header-bar {
+  position: absolute;
+  top: 14px;
+  left: 20px;
+  right: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  z-index: 60;
+  pointer-events: auto;
+}
+
+.folder-tabs-list {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  overflow-x: auto;
+  padding: 4px 6px;
+  background: rgba(20, 20, 20, 0.94);
+  border: 1px solid var(--border-medium);
+  border-radius: 8px;
+  backdrop-filter: blur(8px);
+  box-shadow: 0 4px 16px rgba(0,0,0,0.6);
+  max-width: 70%;
+}
+
+.folder-tab-btn {
+  background: var(--bg-card);
+  border: 1px solid var(--border-subtle);
+  color: var(--text-muted);
+  padding: 5px 12px;
+  font-size: 12px;
+  font-weight: 600;
+  border-radius: 6px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  white-space: nowrap;
+  transition: all 0.15s ease;
+}
+
+.folder-tab-btn:hover {
+  background: var(--bg-btn-hover);
+  color: #ffffff;
+  border-color: var(--border-medium);
+}
+
+.folder-tab-btn.active {
+  background: #2b2010;
+  border-color: var(--color-orange);
+  color: var(--color-orange);
+  box-shadow: 0 0 10px var(--color-orange-glow);
+}
+
+.folder-tab-add-btn {
+  background: #1e1e1e;
+  border: 1px dashed var(--border-medium);
+  color: var(--color-orange);
+  padding: 5px 10px;
+  font-size: 11px;
+  font-weight: bold;
+  border-radius: 6px;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: all 0.15s ease;
+}
+
+.folder-tab-add-btn:hover {
+  background: var(--color-orange);
+  color: #000000;
+  border-style: solid;
+}
+
 /* Background Customizer Top Floating Bar */
 .bg-customizer-bar {
-  position: absolute;
-  top: 16px;
-  left: 20px;
   display: flex;
   align-items: center;
   gap: 10px;
@@ -255,7 +340,7 @@ body {
   padding: 6px 14px;
   border-radius: 8px;
   backdrop-filter: blur(8px);
-  box-shadow: 0 6px 20px rgba(0,0,0,0.6);
+  box-shadow: 0 4px 16px rgba(0,0,0,0.6);
   font-size: 12px;
 }
 
@@ -613,17 +698,142 @@ body {
 .criteria-block {
   background: #171717;
   border: 1px solid var(--border-subtle);
-  border-radius: 4px;
-  padding: 10px 12px;
+  border-radius: 6px;
+  padding: 12px 14px;
   display: flex;
   flex-direction: column;
   gap: 10px;
+  transition: border-color 0.15s ease;
+}
+
+.criteria-block:hover {
+  border-color: var(--border-medium);
 }
 
 .criteria-block-header {
   display: flex;
   align-items: center;
   justify-content: space-between;
+  gap: 8px;
+}
+
+.trigger-desc-box {
+  font-size: 11.5px;
+  color: var(--text-muted);
+  background: #0f0f0f;
+  padding: 6px 10px;
+  border-radius: 4px;
+  border-left: 2px solid var(--color-orange);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.condition-builder-panel {
+  background: #111111;
+  border: 1px solid #242424;
+  border-radius: 4px;
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.condition-builder-title {
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--color-orange);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.condition-subgrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+}
+
+.condition-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  background: #242424;
+  color: #e0e0e0;
+  padding: 2px 6px;
+  border-radius: 3px;
+  font-size: 10.5px;
+  font-family: monospace;
+}
+
+.condition-btn-raw {
+  background: transparent;
+  border: 1px solid #333333;
+  color: var(--text-muted);
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-size: 11px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  transition: all 0.15s ease;
+}
+
+.condition-btn-raw:hover {
+  border-color: var(--color-orange);
+  color: var(--color-orange);
+  background: rgba(255, 166, 0, 0.05);
+}
+
+/* Datapack Directory Status Banner */
+.datapack-status-card {
+  background: #181818;
+  border: 1px solid var(--border-medium);
+  border-left: 3px solid var(--color-orange);
+  border-radius: 6px;
+  padding: 8px 12px;
+  font-size: 11px;
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  animation: fadeIn 0.2s ease;
+}
+
+.datapack-status-card.active {
+  border-left-color: #00ff88;
+  background: #111a14;
+  border-color: #1f3a27;
+}
+
+.datapack-status-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-weight: bold;
+  font-size: 11px;
+  color: var(--color-orange);
+}
+
+.datapack-status-header.active {
+  color: #00ff88;
+}
+
+.datapack-status-path {
+  font-family: monospace;
+  color: #ffffff;
+  word-break: break-all;
+  font-size: 11px;
+  background: rgba(0, 0, 0, 0.4);
+  padding: 3px 6px;
+  border-radius: 4px;
+}
+
+.datapack-status-meta {
+  color: var(--text-muted);
+  font-size: 10.5px;
 }
 
 /* Bottom Action Footer */
@@ -641,6 +851,10 @@ body {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 8px;
+}
+
+.footer-btn-row.three-col {
+  grid-template-columns: 1fr 1fr 1fr;
 }
 
 .action-btn {
