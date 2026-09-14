@@ -3,37 +3,172 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Portfolio Minecraft - IlTuoNome</title>
-  <link rel="stylesheet" href="styles/portfolio.css">
+  <title>Portfolio Progetti Minecraft - Manolo006</title>
   <link rel="stylesheet" href="styles/home.css">
+  <link rel="stylesheet" href="styles/portfolio.css">
 </head>
 <body>
   <div id="navbar-container"></div>
 
-  <h1 class="portfolio-title">🎮 Portfolio</h1>
-  <div class="intro">
-    <p>Ciao! Mi chiamo <strong>Manolo006</strong> e una mia grande passione è creare TexturePack e DataPack per Minecraft.</p>
-    <p>Qui sotto puoi scaricare i miei progetti gratuitamente.</p>
-  </div>
+  <div class="portfolio-container">
+    <header class="portfolio-header">
+      <div class="portfolio-badge">Creazioni Minecraft</div>
+      <h1 class="portfolio-title">🎮 Portfolio Progetti</h1>
+      <p class="portfolio-subtitle">
+        Ciao! Sono <strong>Manolo006</strong>. In questa sezione trovi i miei Datapack e Resource Pack per Minecraft, realizzati per migliorare il gameplay, ottimizzare la logistica e introdurre meccaniche uniche. Tutti i progetti sono scaricabili gratuitamente.
+      </p>
+    </header>
 
-  <div class="projects-grid">
-    <div class="project">
-      <img src="images/teamgenerator.png" alt="teamgenerator">
-      <h2>Team Generator Datapack</h2>
-      <p>Un datapack che genera automaticamente i team. Ideale per PvP, minigame e server personalizzati. Compatibile con Minecraft 1.20.6/7/8</p>
-      <a href="https://drive.google.com/uc?export=download&id=1Fbf5w5uQ1fSzbtKKtbodP1yaNoIsPe2i" target="_blank">Scarica</a>
-    </div>
-    <div class="project">
-      <img src="images/uhclogo.png" alt="uhclogo">
-      <h2>UHC Datapack</h2>
-      <p>I mob ora hanno comportamenti avanzati e reagiscono in modo intelligente all'ambiente!</p>
-      <a href="https://drive.google.com/uc?export=download&id=1kVeIFB75ft3P8aTFN4oTFd4OpSqhoBCV" target="_blank">Scarica</a>
-    </div>
-    <div class="project">
-      <img src="images/skyhaste.png" alt="skyhaste">
-      <h2>Sky Haste TexturePack</h2>
-      <p>Aggiunge effetti di velocità e leggerezza ai giocatori nel mondo del cielo. Compatibile con 1.20+.</p>
-      <a href="https://drive.google.com/uc?export=download&id=ID_DEL_FILE_3" target="_blank">Scarica</a>
+    <div class="projects-grid">
+      <!-- 1. Armor Stand Poser Datapack -->
+      <div class="project-card">
+        <div>
+          <div class="project-meta-top">
+            <span class="project-type-badge datapack">Datapack</span>
+            <span class="project-version">1.20.5+ / 1.21+</span>
+          </div>
+          <div class="project-img-wrapper">
+            <img src="images/armor_stand_poser.png" alt="Armor Stand Poser">
+          </div>
+          <div class="project-content">
+            <h2>Armor Stand Poser</h2>
+            <p>
+              Strumento avanzato in stile debug stick per posare e animare qualsiasi Armor Stand in vanilla. Permette di ruotare testa, corpo e arti su ciascun asse (X, Y, Z), attivare braccia, dimensioni ridotte (Small/Mini) e rimuovere la pedana con il pratico comando <code>/function armor_stand_poser:give</code>.
+            </p>
+            <div class="project-tags">
+              <span class="project-tag">#PoserStick</span>
+              <span class="project-tag">#VanillaAnimation</span>
+              <span class="project-tag">#BuilderTool</span>
+            </div>
+          </div>
+        </div>
+        <div class="project-actions">
+          <a class="download-btn" href="downloads/armor_stand_poser.zip" download="armor_stand_poser.zip">
+            <svg viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
+            Scarica Datapack (.zip)
+          </a>
+        </div>
+      </div>
+
+      <!-- 2. Stackable Shulkers Datapack -->
+      <div class="project-card">
+        <div>
+          <div class="project-meta-top">
+            <span class="project-type-badge datapack">Datapack</span>
+            <span class="project-version">1.20.5+ / 1.21+</span>
+          </div>
+          <div class="project-img-wrapper">
+            <img src="images/stackable_shulkers.png" alt="Stackable Shulkers">
+          </div>
+          <div class="project-content">
+            <h2>Stackable Shulkers</h2>
+            <p>
+              Permette a tutte le Shulker Box vuote di impilarsi fino a 64 unità sia nel crafting sia nei drop/loot table di ogni colore. Elimina l'ingombro degli inventari e rivoluziona la logistica e i magazzini automatici vanilla senza richiedere mod client.
+            </p>
+            <div class="project-tags">
+              <span class="project-tag">#Stack64</span>
+              <span class="project-tag">#Storage</span>
+              <span class="project-tag">#QualityOfLife</span>
+            </div>
+          </div>
+        </div>
+        <div class="project-actions">
+          <a class="download-btn" href="downloads/stackable_shulkers.zip" download="stackable_shulkers.zip">
+            <svg viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
+            Scarica Datapack (.zip)
+          </a>
+        </div>
+      </div>
+
+      <!-- 3. Sky Haste TexturePack -->
+      <div class="project-card">
+        <div>
+          <div class="project-meta-top">
+            <span class="project-type-badge resourcepack">Resource Pack</span>
+            <span class="project-version">1.20.5+ / 1.21+</span>
+          </div>
+          <div class="project-img-wrapper">
+            <img src="images/skyhaste.png" alt="Sky Haste TexturePack">
+          </div>
+          <div class="project-content">
+            <h2>Sky Haste TexturePack</h2>
+            <p>
+              Resource pack personalizzato con modelli 3D esclusivi (es. custom compactors, golem, trash bin e blocchi custom), texture rifinite per armi ed armature e un'esperienza visiva fluida e ottimizzata per le modalità competitive e Skyblock.
+            </p>
+            <div class="project-tags">
+              <span class="project-tag">#Modelli3D</span>
+              <span class="project-tag">#CustomItems</span>
+              <span class="project-tag">#Skyblock</span>
+            </div>
+          </div>
+        </div>
+        <div class="project-actions">
+          <a class="download-btn" href="downloads/skyhaste_texture.zip" download="skyhaste_texture.zip">
+            <svg viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
+            Scarica Texture (.zip)
+          </a>
+        </div>
+      </div>
+
+      <!-- 4. Team Generator Datapack -->
+      <div class="project-card">
+        <div>
+          <div class="project-meta-top">
+            <span class="project-type-badge datapack">Datapack</span>
+            <span class="project-version">1.20.6 - 1.21+</span>
+          </div>
+          <div class="project-img-wrapper">
+            <img src="images/teamgenerator.png" alt="Team Generator Datapack">
+          </div>
+          <div class="project-content">
+            <h2>Team Generator</h2>
+            <p>
+              Un datapack che genera automaticamente squadre equilibrate con assegnazione immediata di colori e gestione dei partecipanti. Ideale per tornei PvP, minigame e server personalizzati.
+            </p>
+            <div class="project-tags">
+              <span class="project-tag">#PvP</span>
+              <span class="project-tag">#Minigames</span>
+              <span class="project-tag">#AutoTeams</span>
+            </div>
+          </div>
+        </div>
+        <div class="project-actions">
+          <a class="download-btn" href="https://drive.google.com/uc?export=download&id=1Fbf5w5uQ1fSzbtKKtbodP1yaNoIsPe2i" target="_blank">
+            <svg viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
+            Scarica Datapack
+          </a>
+        </div>
+      </div>
+
+      <!-- 5. UHC Datapack -->
+      <div class="project-card">
+        <div>
+          <div class="project-meta-top">
+            <span class="project-type-badge datapack">Datapack</span>
+            <span class="project-version">1.16.2 - 1.21+</span>
+          </div>
+          <div class="project-img-wrapper">
+            <img src="images/uhclogo.png" alt="UHC Datapack">
+          </div>
+          <div class="project-content">
+            <h2>UHC Datapack</h2>
+            <p>
+              Progetto storico costantemente aggiornato: dota i mob di intelligenza artificiale avanzata con reazioni strategiche all'ambiente, introduce drop ribilanciati e una gestione completa per partite Ultra Hardcore ad alta sfida.
+            </p>
+            <div class="project-tags">
+              <span class="project-tag">#UltraHardcore</span>
+              <span class="project-tag">#SmartMobAI</span>
+              <span class="project-tag">#Survival</span>
+            </div>
+          </div>
+        </div>
+        <div class="project-actions">
+          <a class="download-btn" href="downloads/uhc_datapack.zip" download="uhc_datapack.zip">
+            <svg viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
+            Scarica Datapack (.zip)
+          </a>
+        </div>
+      </div>
     </div>
   </div>
 
