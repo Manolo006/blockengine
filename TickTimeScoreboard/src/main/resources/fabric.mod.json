@@ -1,0 +1,27 @@
+{
+  "schemaVersion": 1,
+  "id": "ticktimescoreboard",
+  "version": "1.0.0",
+  "name": "TickTimeScoreboard",
+  "description": "Client-side mod that converts raw scoreboard ticks into formatted human-readable time for targeted objectives.",
+  "authors": [
+    "Manuel"
+  ],
+  "contact": {},
+  "license": "MIT",
+  "icon": "assets/ticktimescoreboard/icon.png",
+  "environment": "client",
+  "entrypoints": {
+    "client": [
+      "com.ticktimescoreboard.TickTimeMod"
+    ]
+  },
+  "mixins": [
+    "ticktimescoreboard.mixins.json"
+  ],
+  "depends": {
+    "fabricloader": ">=0.16.0",
+    "minecraft": "*",
+    "java": ">=21"
+  }
+}
